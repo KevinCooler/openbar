@@ -1,41 +1,82 @@
 --create database openbar;
 drop table drink;
+drop table category;
+drop table type;
+drop table brand;
+drop table name;
+drop table mixer;
 drop table purchase_order;
+drop table customer;
+
+
+create table customer(
+        email varchar (50),
+        credit_card_number int not null,
+        name varchar(35) not null,
+        
+        constraint pk_email primary key (email)
+);
 
 create table purchase_order(
-        order_id serial,
+        purchase_order_id serial,
+        drink_id int not null
         date_time timestamp not null,
-        customer_name varchar(100) not null,
+        email varchar(100) not null,
         is_complete boolean default false,
+        quantity int default 1,
         
-        constraint pk_order_id primary key (order_id)
+        constraint pk_purchase_order_id primary key (purchase_order_id),
+        constraint fk_drink_id foreign key (drink_id) references drink (drink_id),
+        constraint fk_email foreign key (email) references customer (email)
+);
+
+create table category(
+        category varchar(35),
+        process_seconds int default 30,
+        
+        constraint pk_category primary key (category)
+);
+
+create table type(
+        type varchar(35),
+        
+        constraint pk_type primary key (type)
+);
+
+create table brand(
+        brand varchar(35),
+        
+        constraint pk_brand primary key (brand)
+);
+
+create table name(
+        name varchar(35),
+        
+        constraint pk_name primary key (name)
+);
+
+create table mixer(
+        mixer varchar(35),
+        
+        constraint pk_mixer primary key (mixer)
 );
 
 create table drink(
         drink_id serial,
-        order_id int not null,
-        name varchar(200) not null,
-        quantity int default 1,
+        category varchar(35) not null,
+        type varchar(35) not null,
+        brand varchar(35) not null,
+        name varchar(35) not null,
+        mixer varchar(35),
         comment varchar (200),
         
         constraint pk_drink_id primary key (drink_id),
-        constraint fk_order_id foreign key (order_id) references purchase_order (order_id)
+        constraint fk_category foreign key (category) references category (category),
+        constraint fk_type foreign key (type) references type (type),
+        constraint fk_brand foreign key (brand) references brand (brand),
+        constraint fk_name foreign key (name) references name (name),
+        constraint fk_mixer foreign key (mixer) references mixer (mixer)
 );
 
-insert into purchase_order (date_time, customer_name) values (now(), 'Kevin Cooler');
-insert into purchase_order (date_time, customer_name) values (now(), 'Andrew Rizkallah');
-insert into purchase_order (date_time, customer_name) values (now(), 'Doug Stauffer');
-insert into purchase_order (date_time, customer_name) values (now(), 'Steve Funk');
 
-insert into drink (order_id, name) values (1, 'CBC IPA');
-insert into drink (order_id, name, quantity) values (2, 'Bud Light', 4);
-insert into drink (order_id, name, comment) values (3, 'Corona', 'bottle with lime');
-insert into drink (order_id, name) values (3, 'PBR draft');
-insert into drink (order_id, name) values (4, 'whiskey gingerale');
-insert into drink (order_id, name, comment) values (4, 'double Jameson', 'neat');
-insert into drink (order_id, name, quantity) values (4, 'tequila shot', 2);
-
-update purchase_order set is_complete = true where order_id = 1;
-
-select * from drink full outer join purchase_order po on po.order_id = drink.order_id; 
 
