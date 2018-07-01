@@ -11,6 +11,9 @@ import openbardir.openbardir.customer.JDBCCustomerDAO;
 import openbardir.openbardir.drink.Drink;
 import openbardir.openbardir.drink.DrinkDAO;
 import openbardir.openbardir.drink.JDBCDrinkDAO;
+import openbardir.openbardir.order.JDBCOrderDAO;
+import openbardir.openbardir.order.Order;
+import openbardir.openbardir.order.OrderDAO;
 
 
 public class OpenbarCLI {
@@ -32,9 +35,15 @@ public class OpenbarCLI {
 	private static final String UPDATE_ACCOUNT_MENU_OPTION_GO_BACK = "Go Back";
 	private static final String[] UPDATE_ACCOUNT_MENU_OPTIONS = {UPDATE_ACCOUNT_MENU_OPTION_NAME, UPDATE_ACCOUNT_MENU_OPTION_CREDIT_CARD_NUMBER, UPDATE_ACCOUNT_MENU_OPTION_GO_BACK};
 	
+	private static final String ORDER_MENU_OPTION_SUBMIT_ORDER = "Submit Order";
+	private static final String ORDER_MENU_OPTION_CHANGE_QUANTITY = "Change Quantity";
+	private static final String ORDER_MENU_OPTION_ADD_COMMENT = "Add Comment";
+	private static final String ORDER_MENU_OPTION_GO_BACK = "Go Back";
+	private static final String[] ORDER_MENU_OPTIONS = {ORDER_MENU_OPTION_SUBMIT_ORDER, ORDER_MENU_OPTION_CHANGE_QUANTITY, ORDER_MENU_OPTION_ADD_COMMENT, ORDER_MENU_OPTION_GO_BACK};
+	
 	private Menu menu;
 	private DrinkDAO drinkDAO;
-//	private PurchaseOrderDAO purchaseOrderDAO;
+	private OrderDAO orderDAO;
 	private CustomerDAO customerDAO;
 	private Customer customer;
 	
@@ -53,7 +62,7 @@ public class OpenbarCLI {
 		
 		customerDAO = new JDBCCustomerDAO(dataSource);
 		drinkDAO = new JDBCDrinkDAO(dataSource);
-//		purchaseOrderDAO = new JDBCPurchaseOrderDAO(dataSource);
+		orderDAO = new JDBCOrderDAO(dataSource);
 	}
 
 	private void run() {
@@ -103,8 +112,43 @@ public class OpenbarCLI {
 	}
 
 	private void runPurchaseOrder(Drink selectedDrink) {
-		// TODO Auto-generated method stub
-		
+		Order order = new Order();
+		order.setDrinkId(selectedDrink.getDrinkId());
+		order.setEmail(customer.getEmail());
+		order.setQuantity(1);
+		order.setComment("<none>");
+		while(true) {
+			menu.displayOrderDetails(order, selectedDrink);
+			String choice = (String)menu.getChoiceFromOptions(ORDER_MENU_OPTIONS);
+			if(choice.equals(ORDER_MENU_OPTION_SUBMIT_ORDER)) {
+				handleSubmitOrder(order);
+				break;
+			} else if(choice.equals(ORDER_MENU_OPTION_CHANGE_QUANTITY)) {
+				order = handleChangeQuantity(order);
+			} else if(choice.equals(ORDER_MENU_OPTION_ADD_COMMENT)) {
+				order = handleAddComment(order);
+			} else if(choice.equals(ORDER_MENU_OPTION_GO_BACK)) {
+				break;
+			}
+		}
+	}
+
+	private void handleSubmitOrder(Order order) {
+		long orderId = orderDAO.submitOrder(order);
+		order.setOrderId(orderId);
+		menu.displayOrderConfirmation(order);
+	}
+
+	private Order handleAddComment(Order order) {
+		String comment = menu.getCommentFromUser();
+		order.setComment(comment);
+		return order;
+	}
+
+	private Order handleChangeQuantity(Order order) {
+		int quantity = menu.getDesiredQuantity();
+		order.setQuantity(quantity);
+		return order;
 	}
 
 	private Customer handleLogIn() {
@@ -129,7 +173,6 @@ public class OpenbarCLI {
 	
 	private Customer handleViewAccountInfo(Customer customer) {
 		while(true) {
-			menu.printHeading("Account Information");
 			menu.displayAccountInfo(customer);
 			String choice = (String)menu.getChoiceFromOptions(UPDATE_ACCOUNT_MENU_OPTIONS);
 			if(choice.equals(UPDATE_ACCOUNT_MENU_OPTION_NAME)) {

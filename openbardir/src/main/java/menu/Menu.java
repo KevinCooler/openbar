@@ -8,6 +8,7 @@ import java.util.Scanner;
 
 import openbardir.openbardir.customer.Customer;
 import openbardir.openbardir.drink.Drink;
+import openbardir.openbardir.order.Order;
 
 public class Menu {
 	
@@ -116,6 +117,7 @@ public class Menu {
 	}
 
 	public void displayAccountInfo(Customer customer) {
+		printHeading("Account Information");
 		out.println("Email Address:      " + customer.getEmail());
 		out.println("Display Name:       " + customer.getName());
 		out.println("Credit Card Number: ************" + customer.getCreditCardNumber().substring(customer.getCreditCardNumber().length() - 4));
@@ -135,7 +137,7 @@ public class Menu {
 		for (Drink each: drinks) {
 			if (each.getDrinkId() == drinkId) {
 				drink = each;
-				out.println("You select a " + drink.getName());
+				
 			}
 		}
 		return drink;
@@ -148,6 +150,32 @@ public class Menu {
 		}
 		out.print("\nEnter Drink Id to order or (0) to go back >>> ");
 		out.flush();
+	}
+
+
+	public void displayOrderDetails(Order order, Drink drink) {
+		printHeading("Order Details");
+		out.println("Your current order is [" + order.getQuantity() + "] " + drink.getName());
+		out.println("Comment: " + order.getComment());
+		out.flush();
+	}
+
+	public String getCommentFromUser() {
+		out.print("\nEnter comment: >>> ");
+		out.flush();
+		return in.nextLine();
+	}
+
+	public int getDesiredQuantity() {
+		out.print("\nEnter quantity: >>> ");
+		out.flush();
+		return Integer.parseInt(in.nextLine());
+	}
+
+
+	public void displayOrderConfirmation(Order order) {
+		out.println("Your order has been submitted. Confirmation #: " + order.getOrderId());
+		
 	}
 
 
