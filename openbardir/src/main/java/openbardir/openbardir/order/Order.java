@@ -1,12 +1,12 @@
 package openbardir.openbardir.order;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 public class Order {
 	
 	private Long orderId;
 	private Long drinkId;
-	private LocalDateTime dateTime;
+	private Timestamp dateTime;
 	private String email;
 	private Long filledById;
 	private int quantity;
@@ -24,10 +24,10 @@ public class Order {
 	public void setDrinkId(Long drinkId) {
 		this.drinkId = drinkId;
 	}
-	public LocalDateTime getDateTime() {
+	public Timestamp getDateTime() {
 		return dateTime;
 	}
-	public void setDateTime(LocalDateTime dateTime) {
+	public void setDateTime(Timestamp dateTime) {
 		this.dateTime = dateTime;
 	}
 	public String getEmail() {
@@ -54,6 +54,7 @@ public class Order {
 	public void setComment(String comment) {
 		this.comment = comment;
 	}
+	
 	@Override
 	public String toString() {
 		return "Order [orderId=" + orderId + ", drinkId=" + drinkId + ", dateTime=" + dateTime + ", email=" + email

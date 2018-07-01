@@ -98,5 +98,7 @@ public class JDBCDrinkDAOIntegrationTest {
 		
 		Assert.assertEquals(count + 1,  drinks.size());
 	}
+	
+	
 
 }

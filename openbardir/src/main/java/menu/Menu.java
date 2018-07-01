@@ -173,9 +173,10 @@ public class Menu {
 	}
 
 
-	public void displayOrderConfirmation(Order order) {
-		out.println("Your order has been submitted. Confirmation #: " + order.getOrderId());
-		
+	public void displayOrderConfirmation(Order order, double cost, String creditCardNumber) {
+		out.println("\nYour order has been submitted.");
+		out.printf("$%3.2f has been charged to credit card ************%s\n"  , cost, creditCardNumber.substring(creditCardNumber.length() - 4));
+		out.println("Confirmation #" + order.getOrderId());
 	}
 
 

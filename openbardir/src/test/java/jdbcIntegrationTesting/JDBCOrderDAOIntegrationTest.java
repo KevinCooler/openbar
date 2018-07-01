@@ -1,6 +1,7 @@
 package jdbcIntegrationTesting;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -73,6 +74,39 @@ public class JDBCOrderDAOIntegrationTest {
 			email = result.getString("customer_email");
 		}
 		Assert.assertEquals("test@gmail.com", email);
+	}
+	
+	@Test
+	public void returns_order_that_was_submitted() {
+		long orderId = orderDAO.submitOrder(testOrder);
+		List<Order> orders = orderDAO.getAllOrders();
+		boolean inList = false;
+		for (Order each: orders) {
+			if(each.getOrderId() == orderId) inList = true;
+		}
+		Assert.assertTrue(inList);
+	}
+	
+	@Test
+	public void returns_order_submitted_with_email() {
+		long orderId = orderDAO.submitOrder(testOrder);
+		List<Order> orders = orderDAO.getAllOrdersByEmail("test@gmail.com");
+		boolean inList = false;
+		for (Order each: orders) {
+			if(each.getOrderId() == orderId) inList = true;
+		}
+		Assert.assertTrue(inList);
+	}
+	
+	@Test
+	public void not_return_order_submitted_with_different_email() {
+		long orderId = orderDAO.submitOrder(testOrder);
+		List<Order> orders = orderDAO.getAllOrdersByEmail("other@gmail.com");
+		boolean inList = false;
+		for (Order each: orders) {
+			if(each.getOrderId() == orderId) inList = true;
+		}
+		Assert.assertFalse(inList);
 	}
 
 }

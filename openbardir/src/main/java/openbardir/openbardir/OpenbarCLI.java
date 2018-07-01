@@ -23,9 +23,9 @@ public class OpenbarCLI {
 	private static final String MAIN_MENU_OPTION_EXIT = "Exit";
 	private static final String[] MAIN_MENU_OPTIONS = {MAIN_MENU_OPTION_LOG_IN, MAIN_MENU_OPTION_CREATE_ACCOUNT, MAIN_MENU_OPTION_EXIT};
 	
-	private static final String DRINK_MENU_OPTION__ALL_ORDERS = "Select from All Orders";
-	private static final String DRINK_MENU_OPTION_PREVIOUS_ORDERS = "Select from Previous Orders";
-	private static final String DRINK_MENU_OPTION_ALL_AVAILABLE = "Select from All Available";
+	private static final String DRINK_MENU_OPTION__ALL_ORDERS = "Select from All Previous Orders";
+	private static final String DRINK_MENU_OPTION_PREVIOUS_ORDERS = "Select from Your Previous Orders";
+	private static final String DRINK_MENU_OPTION_ALL_AVAILABLE = "Select from All Available Drinks";
 	private static final String DRINK_MENU_OPTION_VIEW_ACCOUNT_INFO = "View Account Info";
 	private static final String DRINK_MENU_OPTION_LOGOUT = "Log Out";
 	private static final String[] DRINK_MENU_OPTIONS = {DRINK_MENU_OPTION__ALL_ORDERS, DRINK_MENU_OPTION_PREVIOUS_ORDERS, DRINK_MENU_OPTION_ALL_AVAILABLE, DRINK_MENU_OPTION_VIEW_ACCOUNT_INFO, DRINK_MENU_OPTION_LOGOUT};
@@ -89,11 +89,15 @@ public class OpenbarCLI {
 			menu.printHeading("Drink Menu");
 			String choice = (String)menu.getChoiceFromOptions(DRINK_MENU_OPTIONS);
 			if(choice.equals(DRINK_MENU_OPTION__ALL_ORDERS)) {
-//				handleSelectFromAllOrders();
+				menu.printHeading("All Previous Orders");
+				handleDrinkSelection(drinkDAO.getDrinksOfAllOrders());
 			} else if(choice.equals(DRINK_MENU_OPTION_PREVIOUS_ORDERS)) {
-//				handleSelectFromPreviousOrders();
+				menu.printHeading("Your Previous Orders");
+				handleDrinkSelection(drinkDAO.getDrinksOfAllOrdersByEmail(customer.getEmail()));
 			} else if(choice.equals(DRINK_MENU_OPTION_ALL_AVAILABLE)) {
-				handleSelectFromAllAvailable();
+				menu.printHeading("Available Drinks");
+				handleDrinkSelection(drinkDAO.getAvailableDrinks());
+//				handleSelectFromAllAvailable();
 			} else if(choice.equals(DRINK_MENU_OPTION_VIEW_ACCOUNT_INFO)) {
 				customer = handleViewAccountInfo(customer);
 			} else if(choice.equals(DRINK_MENU_OPTION_LOGOUT)) {
@@ -102,11 +106,9 @@ public class OpenbarCLI {
 			}
 		}
 	}
-
-	private void handleSelectFromAllAvailable() {
-		menu.printHeading("Available Drinks");
-		List<Drink> availableDrinks = drinkDAO.getAvailableDrinks();
-		Drink selectedDrink = menu.getDrinkFromOptions(availableDrinks);
+	
+	private void handleDrinkSelection(List<Drink> drinks) {
+		Drink selectedDrink = menu.getDrinkFromOptions(drinks);
 		if (selectedDrink == null);
 		else runPurchaseOrder(selectedDrink);
 	}
@@ -136,7 +138,8 @@ public class OpenbarCLI {
 	private void handleSubmitOrder(Order order) {
 		long orderId = orderDAO.submitOrder(order);
 		order.setOrderId(orderId);
-		menu.displayOrderConfirmation(order);
+		double cost = orderDAO.getCostofOrderByOrderId(order.getOrderId());
+		menu.displayOrderConfirmation(order, cost, customer.getCreditCardNumber());
 	}
 
 	private Order handleAddComment(Order order) {
