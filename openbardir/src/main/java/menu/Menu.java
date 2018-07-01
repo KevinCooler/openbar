@@ -7,13 +7,14 @@ import java.util.Scanner;
 
 public class Menu {
 	
-	private PrintWriter out;
+	public PrintWriter out;
 	private Scanner in;
 
 	public Menu(InputStream input, OutputStream output) {
 		this.out = new PrintWriter(output);
 		this.in = new Scanner(input);
 	}
+	
 
 	public Object getChoiceFromOptions(Object[] options) {
 		Object choice = null;
@@ -50,5 +51,45 @@ public class Menu {
 		out.print("\nPlease choose an option >>> ");
 		out.flush();
 	}
+	
+	public void displayApplicationBanner() {
+		out.println("**************************************");
+		out.println("*  / \\  |\\ |-- |\\  |    |>   /\\   |\\ *");
+		out.println("* |   | |/ |-- | \\ |    |\\  /__\\  |/ *");
+		out.println("*  \\ /  |  |__ |  \\|    |/ /    \\ |\\ *");
+		out.println("**************************************");
+		out.flush();
+	}
+	
+	public void printHeading(String heading) {
+		out.println("\n" + heading);
+		for (int i = 0; i < heading.length(); i++) {
+			out.print("-");
+		}
+		out.println();
+		out.flush();
+	}
 
+
+	public void displayTextToUser(String string) {
+		out.println(string);
+		out.flush();
+	}
+
+
+	public String[] getNewCustomerInfo() {
+		String[] info = new String[3];
+		
+		out.print("\nEnter email address >>> ");
+		out.flush();
+		info[0] = in.nextLine();
+		out.print("Enter credit card number >>> ");
+		out.flush();
+		info[1] = in.nextLine();
+		out.print("Enter display name >>> ");
+		out.flush();
+		info[2] = in.nextLine();
+		
+		return info;
+	}
 }

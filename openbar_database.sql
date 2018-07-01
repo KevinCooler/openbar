@@ -107,7 +107,41 @@ insert into name (name, price) values ('Chateau Pierre de Montignac', 8);
 insert into name (name, price) values ('Pinot Noir', 7);
 insert into name (name, price) values ('Cabernet Sauvignon', 6);
 */
+/*
+insert into type (type) values ('Whiskey');
+insert into type (type) values ('Bourbon');
+insert into type (type) values ('Vodka');
+insert into type (type) values ('Tequilla');
+insert into type (type) values ('Gin');
+insert into type (type) values ('Rum');
+insert into type (type) values ('Brandy');
 
+insert into brand (brand) values ('Titos');
+insert into brand (brand) values ('Blantons');
+insert into brand (brand) values ('Jack Daniels');
+insert into brand (brand) values ('Captain Morgan');
+insert into brand (brand) values ('Patron');
+insert into brand (brand) values ('Bacardi');
+insert into brand (brand) values ('Jim Beam');
+insert into brand (brand) values ('Absolute');
+insert into brand (brand) values ('Beefeater');
+insert into brand (brand) values ('Hendricks');
+insert into brand (brand) values ('Hennessy');
+
+insert into name (name, price) values ('Titos', 5);
+insert into name (name, price) values ('Blantons', 7);
+insert into name (name, price) values ('Jack Daniels', 5);
+insert into name (name, price) values ('Jack Daniels Green Apple', 5);
+insert into name (name, price) values ('Jack Daniels Honey', 5);
+insert into name (name, price) values ('Captain Morgan', 5);
+insert into name (name, price) values ('Silver', 7);
+insert into name (name, price) values ('Gold', 7);
+insert into name (name, price) values ('Jim Beam Apple', 5);
+insert into name (name, price) values ('Citron', 5);
+insert into name (name, price) values ('Beefeater', 5);
+insert into name (name, price) values ('Hennessy', 6);
+insert into name (name, price) values ('Hendricks', 7);
+*/
 --create database openbar;
 drop table purchase_order;
 drop table drink;
@@ -224,40 +258,6 @@ insert into purchase_order (drink_id, customer_email, quantity, comment) values 
 insert into purchase_order (drink_id, customer_email, quantity) values (14, 'kcooler@gmail.com', 1);
 
 
-/*
-insert into type (type) values ('Whiskey');
-insert into type (type) values ('Bourbon');
-insert into type (type) values ('Vodka');
-insert into type (type) values ('Tequilla');
-insert into type (type) values ('Gin');
-insert into type (type) values ('Rum');
-insert into type (type) values ('Brandy');
 
-insert into brand (brand) values ('Titos');
-insert into brand (brand) values ('Blantons');
-insert into brand (brand) values ('Jack Daniels');
-insert into brand (brand) values ('Captain Morgan');
-insert into brand (brand) values ('Patron');
-insert into brand (brand) values ('Bacardi');
-insert into brand (brand) values ('Jim Beam');
-insert into brand (brand) values ('Absolute');
-insert into brand (brand) values ('Beefeater');
-insert into brand (brand) values ('Hendricks');
-insert into brand (brand) values ('Hennessy');
-
-insert into name (name, price) values ('Titos', 5);
-insert into name (name, price) values ('Blantons', 7);
-insert into name (name, price) values ('Jack Daniels', 5);
-insert into name (name, price) values ('Jack Daniels Green Apple', 5);
-insert into name (name, price) values ('Jack Daniels Honey', 5);
-insert into name (name, price) values ('Captain Morgan', 5);
-insert into name (name, price) values ('Silver', 7);
-insert into name (name, price) values ('Gold', 7);
-insert into name (name, price) values ('Jim Beam Apple', 5);
-insert into name (name, price) values ('Citron', 5);
-insert into name (name, price) values ('Beefeater', 5);
-insert into name (name, price) values ('Hennessy', 6);
-insert into name (name, price) values ('Hendricks', 7);
-*/
 
 
