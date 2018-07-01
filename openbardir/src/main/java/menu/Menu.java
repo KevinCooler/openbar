@@ -3,7 +3,11 @@ package menu;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.util.List;
 import java.util.Scanner;
+
+import openbardir.openbardir.customer.Customer;
+import openbardir.openbardir.drink.Drink;
 
 public class Menu {
 	
@@ -76,7 +80,6 @@ public class Menu {
 		out.flush();
 	}
 
-
 	public String[] getNewCustomerInfo() {
 		String[] info = new String[3];
 		
@@ -92,4 +95,60 @@ public class Menu {
 		
 		return info;
 	}
+
+	public String getCustomerEmail() {
+		out.print("\nEnter email address >>> ");
+		out.flush();
+		String email = in.nextLine();
+		return email;
+	}
+
+	public String getNewNameFromUser() {
+		out.print("Enter new display name >>> ");
+		out.flush();
+		return in.nextLine();
+	}
+
+	public String getNewCreditCardNumberFromUser() {
+		out.print("Enter new credit card number >>> ");
+		out.flush();
+		return in.nextLine();
+	}
+
+	public void displayAccountInfo(Customer customer) {
+		out.println("Email Address:      " + customer.getEmail());
+		out.println("Display Name:       " + customer.getName());
+		out.println("Credit Card Number: ************" + customer.getCreditCardNumber().substring(customer.getCreditCardNumber().length() - 4));
+	}
+
+
+	public Drink getDrinkFromOptions(List<Drink> drinks) {
+		displayDrinkOptions(drinks);
+		Drink drink = getDrinkSelection(drinks);
+		return drink;
+	}
+
+	private Drink getDrinkSelection(List<Drink> drinks) {
+		long drinkId = Long.parseLong(in.nextLine());
+		Drink drink = null;
+		
+		for (Drink each: drinks) {
+			if (each.getDrinkId() == drinkId) {
+				drink = each;
+				out.println("You select a " + drink.getName());
+			}
+		}
+		return drink;
+	}
+
+	private void displayDrinkOptions(List<Drink> drinks) {
+		out.println("Drink Id   Price    Name");
+		for (Drink drink: drinks) {
+			out.printf("%-10d $%-7.2f %s\n", drink.getDrinkId(), drink.getPrice(), drink.getName());
+		}
+		out.print("\nEnter Drink Id to order or (0) to go back >>> ");
+		out.flush();
+	}
+
+
 }
