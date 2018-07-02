@@ -45,7 +45,7 @@ public class JDBCOrderDAOIntegrationTest {
 		orderDAO = new JDBCOrderDAO(dataSource);
 		
 		//insert test drink
-		String sqlInsertTestDrink = "insert into drink (brand, category, name, price, type) values ('test', 'Beer', 'test', 33, 'test') returning drink_id";
+		String sqlInsertTestDrink = "insert into drink (brand, category, name, price, type) values ('test', 'Beer', 'test', 3, 'test') returning drink_id";
 		drinkId = jdbcTemplate.queryForObject(sqlInsertTestDrink, Long.class);
 		
 		//insert test customer
@@ -55,7 +55,7 @@ public class JDBCOrderDAOIntegrationTest {
 		testOrder = new Order();
 		testOrder.setDrinkId(drinkId);
 		testOrder.setEmail(email);
-		testOrder.setQuantity(99);
+		testOrder.setQuantity(9);
 		testOrder.setComment("test comment");
 		
 	}
@@ -107,6 +107,14 @@ public class JDBCOrderDAOIntegrationTest {
 			if(each.getOrderId() == orderId) inList = true;
 		}
 		Assert.assertFalse(inList);
+	}
+	
+	@Test 
+	public void returns_cost_as_18() {
+		long orderId = orderDAO.submitOrder(testOrder);
+		double cost = orderDAO.getCostofOrderByOrderId(orderId);
+		
+		Assert.assertEquals(new Double(27), new Double(cost));
 	}
 
 }

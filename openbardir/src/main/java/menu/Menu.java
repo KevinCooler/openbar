@@ -180,4 +180,10 @@ public class Menu {
 	}
 
 
+	public void displayCustomerOrders(List<Order> orders) {
+		printHeading("Previous Orders");
+		for (Order order: orders) out.println(order.toString());
+	}
+
+
 }

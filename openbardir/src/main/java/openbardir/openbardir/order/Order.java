@@ -57,8 +57,8 @@ public class Order {
 	
 	@Override
 	public String toString() {
-		return "Order [orderId=" + orderId + ", drinkId=" + drinkId + ", dateTime=" + dateTime + ", email=" + email
-				+ "]";
+		return "Order [orderId=" + orderId + ", drinkId=" + drinkId + ", dateTime=" + dateTime + ", quantity="
+				+ quantity + "]";
 	}
 	@Override
 	public int hashCode() {

@@ -32,8 +32,9 @@ public class OpenbarCLI {
 	
 	private static final String UPDATE_ACCOUNT_MENU_OPTION_NAME = "Update Display Name";
 	private static final String UPDATE_ACCOUNT_MENU_OPTION_CREDIT_CARD_NUMBER = "Update Credit Card Number";
+	private static final String UPDATE_ACCOUNT_MENU_OPTION_VIEW_ORDER_HISTORY = "View Order History";
 	private static final String UPDATE_ACCOUNT_MENU_OPTION_GO_BACK = "Go Back";
-	private static final String[] UPDATE_ACCOUNT_MENU_OPTIONS = {UPDATE_ACCOUNT_MENU_OPTION_NAME, UPDATE_ACCOUNT_MENU_OPTION_CREDIT_CARD_NUMBER, UPDATE_ACCOUNT_MENU_OPTION_GO_BACK};
+	private static final String[] UPDATE_ACCOUNT_MENU_OPTIONS = {UPDATE_ACCOUNT_MENU_OPTION_VIEW_ORDER_HISTORY, UPDATE_ACCOUNT_MENU_OPTION_NAME, UPDATE_ACCOUNT_MENU_OPTION_CREDIT_CARD_NUMBER, UPDATE_ACCOUNT_MENU_OPTION_GO_BACK};
 	
 	private static final String ORDER_MENU_OPTION_SUBMIT_ORDER = "Submit Order";
 	private static final String ORDER_MENU_OPTION_CHANGE_QUANTITY = "Change Quantity";
@@ -97,7 +98,6 @@ public class OpenbarCLI {
 			} else if(choice.equals(DRINK_MENU_OPTION_ALL_AVAILABLE)) {
 				menu.printHeading("Available Drinks");
 				handleDrinkSelection(drinkDAO.getAvailableDrinks());
-//				handleSelectFromAllAvailable();
 			} else if(choice.equals(DRINK_MENU_OPTION_VIEW_ACCOUNT_INFO)) {
 				customer = handleViewAccountInfo(customer);
 			} else if(choice.equals(DRINK_MENU_OPTION_LOGOUT)) {
@@ -182,6 +182,8 @@ public class OpenbarCLI {
 				customer = handleUpdateCustomerName(customer);
 			} else if(choice.equals(UPDATE_ACCOUNT_MENU_OPTION_CREDIT_CARD_NUMBER)) {
 				customer = handleUpdateCustomerCreditCardNumber(customer);
+			} else if(choice.equals(UPDATE_ACCOUNT_MENU_OPTION_VIEW_ORDER_HISTORY)) {
+				handleViewOrderHistory();
 			} else if(choice.equals(UPDATE_ACCOUNT_MENU_OPTION_GO_BACK)) {
 				break;
 			}
@@ -189,7 +191,12 @@ public class OpenbarCLI {
 		return customer;
 	}
 
-	private Customer handleUpdateCustomerCreditCardNumber(Customer customer2) {
+	private void handleViewOrderHistory() {
+		List<Order> orders = orderDAO.getAllOrdersByEmail(customer.getEmail());
+		menu.displayCustomerOrders(orders);
+	}
+
+	private Customer handleUpdateCustomerCreditCardNumber(Customer customer) {
 		String newCreditCardNumber = menu.getNewCreditCardNumberFromUser();
 		customer.setCreditCardNumber(newCreditCardNumber);
 		customer = customerDAO.updateCustomerAccount(customer);

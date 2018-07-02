@@ -25,7 +25,7 @@ public class JDBCOrderDAO implements OrderDAO {
 
 	public List<Order> getAllOrders() {
 		List<Order> orders = new ArrayList<Order>();
-		String sqlSelectAllOrders = "select * from purchase_order";
+		String sqlSelectAllOrders = "select * from purchase_order order by date_time desc";
 		SqlRowSet result = jdbcTemplate.queryForRowSet(sqlSelectAllOrders);
 		while (result.next()) {
 			orders.add(mapRowToOrder(result));
@@ -35,7 +35,7 @@ public class JDBCOrderDAO implements OrderDAO {
 
 	public List<Order> getAllOrdersByEmail(String email) {
 		List<Order> orders = new ArrayList<Order>();
-		String sqlSelectOrdersByEmail = "select * from purchase_order where customer_email = ?";
+		String sqlSelectOrdersByEmail = "select * from purchase_order where customer_email = ? order by date_time desc";
 		SqlRowSet result = jdbcTemplate.queryForRowSet(sqlSelectOrdersByEmail, email);
 		while (result.next()) {
 			orders.add(mapRowToOrder(result));

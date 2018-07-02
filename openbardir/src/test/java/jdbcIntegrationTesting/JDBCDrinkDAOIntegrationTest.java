@@ -99,6 +99,55 @@ public class JDBCDrinkDAOIntegrationTest {
 		Assert.assertEquals(count + 1,  drinks.size());
 	}
 	
+	@Test
+	public void only_returns_drink_from_order_when_drink_available() {
+		long drinkId = insertTestDrink();
+		long unavailableDrinkId = insertUnavailableTestDrink();
+		String email = insertTestCustomer();
+		insertTestOrder(drinkId, email);
+		insertTestOrder(unavailableDrinkId, email);
+		boolean isInList = false;
+		boolean notInList = true;
+		List<Drink> drinks = drinkDAO.getDrinksOfAllOrders();
+		
+		for (Drink drink: drinks) {
+			if(drink.getDrinkId() == drinkId) isInList = true;
+			if(drink.getDrinkId() == unavailableDrinkId) notInList = false;
+		}
+		Assert.assertTrue(isInList);
+		Assert.assertTrue(notInList);
+	}
+	
+	@Test
+	public void only_returns_drink_from_from_email() {
+		long drinkId = insertTestDrink();
+		String sqlInsertTestCustomer = "insert into customer (email, credit_card_number, name) values ('different@gmail.com', 1111222233334444, 'test') returning email";
+		String differentEmail = jdbcTemplate.queryForObject(sqlInsertTestCustomer, String.class);
+		String email = insertTestCustomer();
+		insertTestOrder(drinkId, email);
+		insertTestOrder(drinkId, differentEmail);
+		List<Drink> drinks = drinkDAO.getDrinksOfAllOrdersByEmail(email);
+		
+		Assert.assertEquals(1,  drinks.size());
+	}
+	
+	private long insertTestDrink() {
+		String sqlInsertTestDrink = "insert into drink (brand, category, name, price, type) values ('test', 'Beer', 'test', 33, 'test') returning drink_id";
+		return jdbcTemplate.queryForObject(sqlInsertTestDrink, Long.class);
+	}
+	private long insertUnavailableTestDrink() {
+		String sqlInsertTestDrink = "insert into drink (brand, category, name, price, type, is_available) values ('test', 'Beer', 'test', 33, 'test', false) returning drink_id";
+		return jdbcTemplate.queryForObject(sqlInsertTestDrink, Long.class);
+	}
+	private String insertTestCustomer() {
+		String sqlInsertTestCustomer = "insert into customer (email, credit_card_number, name) values ('test@gmail.com', 1111222233334444, 'test') returning email";
+		return jdbcTemplate.queryForObject(sqlInsertTestCustomer, String.class);
+	}
+	private long insertTestOrder(long drinkId, String email) {
+		String sqlInsertOrder = "insert into purchase_order (drink_id, customer_email, quantity, comment) values (?, ?, 5, 'test') returning purchase_order_id";
+		return jdbcTemplate.queryForObject(sqlInsertOrder, Long.class, drinkId, email);
+	}
+	
 	
 
 }
