@@ -209,8 +209,4 @@ public class OpenbarCLI {
 		customer = customerDAO.updateCustomerAccount(customer);
 		return customer;
 	}
-
-	
-	
-	
 }
