@@ -76,7 +76,8 @@ public class OpenbarCLI {
 				handleCreateAccount();
 			} else if(choice.equals(MAIN_MENU_OPTION_LOG_IN)) {
 				customer = handleLogIn();
-				runDrinkOrder(customer);
+				if (customer == null);
+				else runDrinkOrder(customer);
 			} else if(choice.equals(MAIN_MENU_OPTION_EXIT)) {
 				menu.displayTextToUser("Thanks for using Openbar. Cheers!");
 				System.exit(0);
@@ -158,7 +159,10 @@ public class OpenbarCLI {
 		menu.printHeading("Log in to Existing Account");
 		String email = menu.getCustomerEmail();
 		Customer customer = customerDAO.lookupCustomerAccountByEmail(email);
-		menu.displayTextToUser("Welcome back, " + customer.getName() + ". Please drink responsibly.\n");
+		if (customer == null) {
+			menu.displayTextToUser("That email address could not be found. Please try again.\n");
+		}
+		else menu.displayTextToUser("Welcome back, " + customer.getName() + ". Please drink responsibly.\n");
 		return customer;
 	}
 
