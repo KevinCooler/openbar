@@ -11,5 +11,8 @@ public interface OrderDAO {
 	public List<Order> getAllOrdersByEmail(String email);
 	
 	public double getCostofOrderByOrderId(long orderId);
+	
+	public List<Order> getUnfilledOrders();
+	public int getNumberOfDrinksInQueue();
 
 }

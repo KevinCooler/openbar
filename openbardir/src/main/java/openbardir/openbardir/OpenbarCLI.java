@@ -11,6 +11,9 @@ import openbardir.openbardir.customer.JDBCCustomerDAO;
 import openbardir.openbardir.drink.Drink;
 import openbardir.openbardir.drink.DrinkDAO;
 import openbardir.openbardir.drink.JDBCDrinkDAO;
+import openbardir.openbardir.employee.Employee;
+import openbardir.openbardir.employee.EmployeeDAO;
+import openbardir.openbardir.employee.JDBCEmployeeDAO;
 import openbardir.openbardir.order.JDBCOrderDAO;
 import openbardir.openbardir.order.Order;
 import openbardir.openbardir.order.OrderDAO;
@@ -21,7 +24,8 @@ public class OpenbarCLI {
 	private static final String MAIN_MENU_OPTION_CREATE_ACCOUNT = "Create New Account";
 	private static final String MAIN_MENU_OPTION_LOG_IN = "Log In";
 	private static final String MAIN_MENU_OPTION_EXIT = "Exit";
-	private static final String[] MAIN_MENU_OPTIONS = {MAIN_MENU_OPTION_LOG_IN, MAIN_MENU_OPTION_CREATE_ACCOUNT, MAIN_MENU_OPTION_EXIT};
+	private static final String MAIN_MENU_OPTION_EMPLOYEE_LOG_IN = "Employee Log In";
+	private static final String[] MAIN_MENU_OPTIONS = {MAIN_MENU_OPTION_LOG_IN, MAIN_MENU_OPTION_CREATE_ACCOUNT, MAIN_MENU_OPTION_EMPLOYEE_LOG_IN, MAIN_MENU_OPTION_EXIT};
 	
 	private static final String DRINK_MENU_OPTION__ALL_ORDERS = "Select from All Previous Orders";
 	private static final String DRINK_MENU_OPTION_PREVIOUS_ORDERS = "Select from Your Previous Orders";
@@ -42,13 +46,23 @@ public class OpenbarCLI {
 	private static final String ORDER_MENU_OPTION_GO_BACK = "Go Back";
 	private static final String[] ORDER_MENU_OPTIONS = {ORDER_MENU_OPTION_SUBMIT_ORDER, ORDER_MENU_OPTION_CHANGE_QUANTITY, ORDER_MENU_OPTION_ADD_COMMENT, ORDER_MENU_OPTION_GO_BACK};
 	
+	private static final String EMPLOYEE_MENU_OPTION_SELECT_ORDER = "Select Order";
+	private static final String EMPLOYEE_MENU_OPTION_MARK_DRINK_UNAVAILABLE = "Mark drink as unavaiable";
+	private static final String EMPLOYEE_MENU_OPTION_LOG_OUT = "Log out";
+	private static final String[] EMPLOYEE_MENU_OPTIONS = {EMPLOYEE_MENU_OPTION_SELECT_ORDER, EMPLOYEE_MENU_OPTION_MARK_DRINK_UNAVAILABLE, EMPLOYEE_MENU_OPTION_LOG_OUT};
+
+	private static final int PROCESS_SECONDS_PER_DRINK = 20;
+	
 	private Menu menu;
 	private DrinkDAO drinkDAO;
 	private OrderDAO orderDAO;
 	private CustomerDAO customerDAO;
+	private EmployeeDAO employeeDAO;
 	private Customer customer;
+	private Employee employee;
 	
 	public static void main(String[] args) {
+		
 		OpenbarCLI application = new OpenbarCLI();
 		application.run();
 	}
@@ -61,6 +75,7 @@ public class OpenbarCLI {
 		dataSource.setUsername("postgres");
 		dataSource.setPassword("postgres1");
 		
+		employeeDAO = new JDBCEmployeeDAO(dataSource);
 		customerDAO = new JDBCCustomerDAO(dataSource);
 		drinkDAO = new JDBCDrinkDAO(dataSource);
 		orderDAO = new JDBCOrderDAO(dataSource);
@@ -74,6 +89,10 @@ public class OpenbarCLI {
 			String choice = (String)menu.getChoiceFromOptions(MAIN_MENU_OPTIONS);
 			if(choice.equals(MAIN_MENU_OPTION_CREATE_ACCOUNT)) {
 				handleCreateAccount();
+			} else if(choice.equals(MAIN_MENU_OPTION_EMPLOYEE_LOG_IN)) {
+				employee = handleEmployeeLogIn();
+				if (employee == null);
+				else runEmployeeMenu();
 			} else if(choice.equals(MAIN_MENU_OPTION_LOG_IN)) {
 				customer = handleLogIn();
 				if (customer == null);
@@ -85,10 +104,37 @@ public class OpenbarCLI {
 		}
 	}
 
+	private void runEmployeeMenu() {
+		menu.displayApplicationBanner();
+		while(true) {
+			
+			createEmloyeeOrderView();
+			String choice = (String)menu.getChoiceFromOptions(EMPLOYEE_MENU_OPTIONS);
+			if(choice.equals(EMPLOYEE_MENU_OPTION_SELECT_ORDER)) {
+//				handleSelectOrder();
+			} else if(choice.equals(EMPLOYEE_MENU_OPTION_MARK_DRINK_UNAVAILABLE)) {
+//				handleMarkDrinkUnavailable();
+			} else if(choice.equals(EMPLOYEE_MENU_OPTION_LOG_OUT)) {
+				break;
+			}
+		}
+		
+	}
+
+	private void createEmloyeeOrderView() {
+		List<Order> orders = orderDAO.getAllOrders();
+		for (Order order: orders) {
+			Customer orderCustomer = customerDAO.lookupCustomerAccountByEmail(order.getEmail());
+			Drink orderDrink = drinkDAO.getDrinkByDrinkId(order.getDrinkId());
+		}
+		
+	}
+
 	private void runDrinkOrder(Customer customer) {
 		menu.displayApplicationBanner();
 		while(true) {
 			menu.printHeading("Drink Menu");
+			displayQueueInfo();
 			String choice = (String)menu.getChoiceFromOptions(DRINK_MENU_OPTIONS);
 			if(choice.equals(DRINK_MENU_OPTION__ALL_ORDERS)) {
 				menu.printHeading("All Previous Orders");
@@ -141,6 +187,7 @@ public class OpenbarCLI {
 		order.setOrderId(orderId);
 		double cost = orderDAO.getCostofOrderByOrderId(order.getOrderId());
 		menu.displayOrderConfirmation(order, cost, customer.getCreditCardNumber());
+		displayQueueInfo();
 	}
 
 	private Order handleAddComment(Order order) {
@@ -165,6 +212,16 @@ public class OpenbarCLI {
 		else menu.displayTextToUser("Welcome back, " + customer.getName() + ". Please drink responsibly.\n");
 		return customer;
 	}
+	private Employee handleEmployeeLogIn() {
+		menu.printHeading("Employee Log In");
+		Long employeeId = menu.getEmployeeId();
+		this.employee = employeeDAO.lookupEmpoyeeByEmployeeId(employeeId);
+		if (employee == null) {
+			menu.displayTextToUser("Employee Id not found. Please try again.\n");
+		}
+		else menu.displayTextToUser("Welcome back, " + employee.getFirstName() + ". Have a great day!\n");
+		return employee;
+	}
 
 	private void handleCreateAccount() {
 		menu.printHeading("Create New Account");
@@ -174,7 +231,7 @@ public class OpenbarCLI {
 		newCustomer.setCreditCardNumber(newCustomerInfo[1]);
 		newCustomer.setName(newCustomerInfo[2]);
 		
-		String email = customerDAO.createCustomerAccount(newCustomer);
+		customerDAO.createCustomerAccount(newCustomer);
 		menu.displayTextToUser("Your new account has been successfully created.");
 	}
 	
@@ -212,5 +269,12 @@ public class OpenbarCLI {
 		customer.setName(newName);
 		customer = customerDAO.updateCustomerAccount(customer);
 		return customer;
+	}
+	
+	private void displayQueueInfo() {
+		int orderQueueCount = orderDAO.getUnfilledOrders().size();
+		int queueSeconds = PROCESS_SECONDS_PER_DRINK * orderDAO.getNumberOfDrinksInQueue();
+		int minutes = queueSeconds / 60;
+		menu.displayQueueInfo(orderQueueCount, minutes);
 	}
 }

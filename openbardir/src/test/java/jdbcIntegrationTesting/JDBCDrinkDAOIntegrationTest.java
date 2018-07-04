@@ -1,44 +1,29 @@
 package jdbcIntegrationTesting;
 
-import java.sql.SQLException;
 import java.util.List;
 
-import org.junit.After;
-import org.junit.AfterClass;
+import javax.sql.DataSource;
+
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.datasource.SingleConnectionDataSource;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
 import openbardir.openbardir.drink.Drink;
 import openbardir.openbardir.drink.JDBCDrinkDAO;
 
 
-public class JDBCDrinkDAOIntegrationTest {
+public class JDBCDrinkDAOIntegrationTest extends JDBCIntegrationParent{
 	
-	private static SingleConnectionDataSource dataSource;
+	private DataSource dataSource;
 	private JDBCDrinkDAO drinkDAO;
 	private JdbcTemplate jdbcTemplate;
 	private Drink testDrink;
 	
-	@BeforeClass
-	public static void setupDataSource() {
-		dataSource = new SingleConnectionDataSource();
-		dataSource.setUrl("jdbc:postgresql://localhost:5432/openbar");
-		dataSource.setUsername("postgres");
-		dataSource.setPassword("postgres1");
-		dataSource.setAutoCommit(false);
-	}
-	@AfterClass
-	public static void closeDataSource() throws SQLException {
-		dataSource.destroy();
-	}
-	
 	@Before
 	public void setup() {
+		this.dataSource = getDataSource();
 		jdbcTemplate = new JdbcTemplate(dataSource);
 		drinkDAO = new JDBCDrinkDAO(dataSource);
 		
@@ -48,10 +33,6 @@ public class JDBCDrinkDAOIntegrationTest {
 		testDrink.setName("Name");
 		testDrink.setPrice(3.00);
 		testDrink.setType("Type");
-	}
-	@After
-	public void rollback() throws SQLException {
-		dataSource.getConnection().rollback();
 	}
 	
 	@Test

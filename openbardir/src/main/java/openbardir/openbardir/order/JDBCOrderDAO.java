@@ -19,8 +19,8 @@ public class JDBCOrderDAO implements OrderDAO {
 	}
 
 	public long submitOrder(Order order) {
-		String sqlInsertOrder = "insert into purchase_order (drink_id, customer_email, quantity, comment) values (?, ?, ?, ?) returning purchase_order_id";
-		return jdbcTemplate.queryForObject(sqlInsertOrder, Long.class, order.getDrinkId(), order.getEmail(), order.getQuantity(), order.getComment());
+		String sqlInsertOrder = "insert into purchase_order (drink_id, customer_email, quantity, comment, filled_by_id) values (?, ?, ?, ?, ?) returning purchase_order_id";
+		return jdbcTemplate.queryForObject(sqlInsertOrder, Long.class, order.getDrinkId(), order.getEmail(), order.getQuantity(), order.getComment(), order.getFilledById());
 	}
 
 	public List<Order> getAllOrders() {
@@ -55,6 +55,26 @@ public class JDBCOrderDAO implements OrderDAO {
 		return cost;
 	}
 	
+	public int getNumberOfDrinksInQueue() {
+		int totalQuantity = 0;
+		String sqlSumQuantityUnfilledDrinks = "select sum(quantity) from purchase_order where filled_by_id is null";
+		SqlRowSet result = jdbcTemplate.queryForRowSet(sqlSumQuantityUnfilledDrinks);
+		if (result.next()) {
+			totalQuantity = result.getInt("sum");
+		}
+		return totalQuantity;
+	}
+	
+	public List<Order> getUnfilledOrders() {
+		List<Order> orders = new ArrayList<Order>();
+		String sqlSelectUnfilledOrders = "select * from purchase_order where filled_by_id is null order by date_time desc";
+		SqlRowSet result = jdbcTemplate.queryForRowSet(sqlSelectUnfilledOrders);
+		while (result.next()) {
+			orders.add(mapRowToOrder(result));
+		}
+		return orders;
+	}
+	
 	private Order mapRowToOrder(SqlRowSet result) {
 		Order order = new Order();
 		order.setComment(result.getString("comment"));
@@ -66,6 +86,10 @@ public class JDBCOrderDAO implements OrderDAO {
 		order.setQuantity(result.getInt("quantity"));
 		return order;
 	}
+
+	
+
+	
 
 	
 

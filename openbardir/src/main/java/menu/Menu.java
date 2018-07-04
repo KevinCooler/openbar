@@ -186,4 +186,28 @@ public class Menu {
 	}
 
 
+	public void displayQueueInfo(int orderQueueCount, int minutes) {
+		out.println("There are [" + orderQueueCount + "] orders in the Queue");	
+		out.println("Estimated wait time: ["+minutes+"] minutes.");
+	}
+
+
+	public Long getEmployeeId() {
+		out.print("\nEnter Employee Id: >>> ");
+		out.flush();
+		return Long.parseLong(in.nextLine());
+	}
+
+
+	public void displayEmloyeeOrderView(List<Order> orders, List<Drink> drinks, List<Customer> customers) {
+		// need to display:
+		// status	order.quanityt	drink.name	order.comment	
+		
+		
+		
+	}
+
+		
+
+
 }

@@ -1,43 +1,24 @@
 package jdbcIntegrationTesting;
 
-import java.sql.SQLException;
+import javax.sql.DataSource;
 
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.datasource.SingleConnectionDataSource;
-
-
 import openbardir.openbardir.customer.Customer;
 import openbardir.openbardir.customer.JDBCCustomerDAO;
 
 
 public class JDBCCustomerDAOIntegrationTest extends JDBCIntegrationParent{
 	
-	private static SingleConnectionDataSource dataSource;
 	private JDBCCustomerDAO customerDAO;
 	private JdbcTemplate jdbcTemplate;
 	private Customer testCustomer;
 	
-	@BeforeClass
-	public static void setupDataSource() {
-		dataSource = new SingleConnectionDataSource();
-		dataSource.setUrl("jdbc:postgresql://localhost:5432/openbar");
-		dataSource.setUsername("postgres");
-		dataSource.setPassword("postgres1");
-		dataSource.setAutoCommit(false);
-	}
-	@AfterClass
-	public static void closeDataSource() throws SQLException {
-		dataSource.destroy();
-	}
-	
 	@Before
 	public void setup() {
+		DataSource dataSource = getDataSource();
 		jdbcTemplate = new JdbcTemplate(dataSource);
 		customerDAO = new JDBCCustomerDAO(dataSource);
 		
@@ -45,10 +26,6 @@ public class JDBCCustomerDAOIntegrationTest extends JDBCIntegrationParent{
 		testCustomer.setCreditCardNumber("0000000000000000");
 		testCustomer.setEmail("test@gmail.com");
 		testCustomer.setName("Test");
-	}
-	@After
-	public void rollback() throws SQLException {
-		dataSource.getConnection().rollback();
 	}
 	
 	@Test

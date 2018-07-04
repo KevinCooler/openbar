@@ -3,6 +3,8 @@ package jdbcIntegrationTesting;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -17,30 +19,18 @@ import openbardir.openbardir.order.JDBCOrderDAO;
 import openbardir.openbardir.order.Order;
 
 
-public class JDBCOrderDAOIntegrationTest {
+public class JDBCOrderDAOIntegrationTest extends JDBCIntegrationParent{
 	
-	private static SingleConnectionDataSource dataSource;
+	private DataSource dataSource;
 	private JDBCOrderDAO orderDAO;
 	private JdbcTemplate jdbcTemplate;
 	private Order testOrder;
 	private long drinkId;
 	private String email;
 	
-	@BeforeClass
-	public static void setupDataSource() {
-		dataSource = new SingleConnectionDataSource();
-		dataSource.setUrl("jdbc:postgresql://localhost:5432/openbar");
-		dataSource.setUsername("postgres");
-		dataSource.setPassword("postgres1");
-		dataSource.setAutoCommit(false);
-	}
-	@AfterClass
-	public static void closeDataSource() throws SQLException {
-		dataSource.destroy();
-	}
-	
 	@Before
 	public void setup() {
+		this.dataSource = getDataSource();
 		jdbcTemplate = new JdbcTemplate(dataSource);
 		orderDAO = new JDBCOrderDAO(dataSource);
 		
@@ -59,11 +49,7 @@ public class JDBCOrderDAOIntegrationTest {
 		testOrder.setComment("test comment");
 		
 	}
-	@After
-	public void rollback() throws SQLException {
-		dataSource.getConnection().rollback();
-	}
-	
+
 	@Test
 	public void returns_orderId_of_submitted_order() {
 		long orderId = orderDAO.submitOrder(testOrder);
@@ -115,6 +101,44 @@ public class JDBCOrderDAOIntegrationTest {
 		double cost = orderDAO.getCostofOrderByOrderId(orderId);
 		
 		Assert.assertEquals(new Double(27), new Double(cost));
+	}
+	
+	@Test
+	public void returns_count_plus_quantity_for_unfilled_order_added() {
+		int startCount = orderDAO.getNumberOfDrinksInQueue();
+		orderDAO.submitOrder(testOrder);
+		int count = orderDAO.getNumberOfDrinksInQueue();
+		
+		Assert.assertEquals(startCount + testOrder.getQuantity(),  count);
+	}
+	
+	@Test
+	public void returns_same_count_for_filled_order_added() {
+		int startCount = orderDAO.getNumberOfDrinksInQueue();
+		testOrder.setFilledById(1l);
+		orderDAO.submitOrder(testOrder);
+		int count = orderDAO.getNumberOfDrinksInQueue();
+		
+		Assert.assertEquals(startCount,  count);
+	}
+	
+	@Test
+	public void returns_order_count_plus_1_for_unfilled_order_added() {
+		int startCount = orderDAO.getUnfilledOrders().size();
+		orderDAO.submitOrder(testOrder);
+		int count = orderDAO.getUnfilledOrders().size();
+		
+		Assert.assertEquals(startCount + 1,  count);
+	}
+	
+	@Test
+	public void returns_same_order_count_for_filled_order_added() {
+		int startCount = orderDAO.getUnfilledOrders().size();
+		testOrder.setFilledById(1l);
+		orderDAO.submitOrder(testOrder);
+		int count = orderDAO.getUnfilledOrders().size();
+		
+		Assert.assertEquals(startCount,  count);
 	}
 
 }
