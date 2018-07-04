@@ -1,18 +1,13 @@
 package jdbcIntegrationTesting;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import javax.sql.DataSource;
 
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.datasource.SingleConnectionDataSource;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
 import openbardir.openbardir.order.JDBCOrderDAO;
@@ -139,6 +134,20 @@ public class JDBCOrderDAOIntegrationTest extends JDBCIntegrationParent{
 		int count = orderDAO.getUnfilledOrders().size();
 		
 		Assert.assertEquals(startCount,  count);
+	}
+	
+	@Test
+	public void returns_comment_from_order_searched_for() {
+		long orderId = insertTestOrder(drinkId, email);
+		
+		Order order = orderDAO.getOrderByOrderId(orderId);
+		
+		Assert.assertEquals("test", order.getComment());
+	}
+	
+	private long insertTestOrder(long drinkId, String email) {
+		String sqlInsertOrder = "insert into purchase_order (drink_id, customer_email, quantity, comment) values (?, ?, 5, 'test') returning purchase_order_id";
+		return jdbcTemplate.queryForObject(sqlInsertOrder, Long.class, drinkId, email);
 	}
 
 }

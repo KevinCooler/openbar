@@ -3,6 +3,7 @@ package menu;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Scanner;
 
@@ -176,7 +177,7 @@ public class Menu {
 	public void displayOrderConfirmation(Order order, double cost, String creditCardNumber) {
 		out.println("\nYour order has been submitted.");
 		out.printf("$%3.2f has been charged to credit card ************%s\n"  , cost, creditCardNumber.substring(creditCardNumber.length() - 4));
-		out.println("Confirmation #" + order.getOrderId());
+		out.println("Confirmation #" + order.getOrderId() + "\n");
 	}
 
 
@@ -199,12 +200,23 @@ public class Menu {
 	}
 
 
-	public void displayEmloyeeOrderView(List<Order> orders, List<Drink> drinks, List<Customer> customers) {
+	public void displayEmloyeeOrderView(Order order, Drink drink, Customer customer, String status) {
 		// need to display:
-		// status	order.quanityt	drink.name	order.comment	
-		
-		
-		
+		// Order Id         Time     Status          Category        Quantity     Drink	           Comment	           Customer Name
+		String comment = "";
+		if(order.getComment() != null && !order.getComment().equals("<none>")) comment = order.getComment();
+		SimpleDateFormat format = new SimpleDateFormat("MMM dd HH:mm");
+		out.printf("%-5d %-17s %-13s %-13s %-6d %-35s %30s\n", 
+				order.getOrderId(), format.format(order.getDateTime()), status, drink.getCategory(), order.getQuantity(), drink.getName(), customer.getName());
+		out.println("                                                           " + comment);
+		out.println("-----------------------------------------------------------------------------------------------------------------------------");
+	}
+
+
+	public long getOrderId() {
+		out.print("\nEnter Order Id: >>> ");
+		out.flush();
+		return Long.parseLong(in.nextLine());
 	}
 
 		

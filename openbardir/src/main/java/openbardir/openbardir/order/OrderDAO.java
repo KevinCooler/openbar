@@ -15,4 +15,6 @@ public interface OrderDAO {
 	public List<Order> getUnfilledOrders();
 	public int getNumberOfDrinksInQueue();
 
+	public Order getOrderByOrderId(long orderId);
+
 }

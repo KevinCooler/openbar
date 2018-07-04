@@ -25,7 +25,7 @@ public class JDBCOrderDAO implements OrderDAO {
 
 	public List<Order> getAllOrders() {
 		List<Order> orders = new ArrayList<Order>();
-		String sqlSelectAllOrders = "select * from purchase_order order by date_time desc";
+		String sqlSelectAllOrders = "select * from purchase_order order by date_time";
 		SqlRowSet result = jdbcTemplate.queryForRowSet(sqlSelectAllOrders);
 		while (result.next()) {
 			orders.add(mapRowToOrder(result));
@@ -35,7 +35,7 @@ public class JDBCOrderDAO implements OrderDAO {
 
 	public List<Order> getAllOrdersByEmail(String email) {
 		List<Order> orders = new ArrayList<Order>();
-		String sqlSelectOrdersByEmail = "select * from purchase_order where customer_email = ? order by date_time desc";
+		String sqlSelectOrdersByEmail = "select * from purchase_order where customer_email = ? order by date_time";
 		SqlRowSet result = jdbcTemplate.queryForRowSet(sqlSelectOrdersByEmail, email);
 		while (result.next()) {
 			orders.add(mapRowToOrder(result));
@@ -67,12 +67,22 @@ public class JDBCOrderDAO implements OrderDAO {
 	
 	public List<Order> getUnfilledOrders() {
 		List<Order> orders = new ArrayList<Order>();
-		String sqlSelectUnfilledOrders = "select * from purchase_order where filled_by_id is null order by date_time desc";
+		String sqlSelectUnfilledOrders = "select * from purchase_order where filled_by_id is null order by date_time";
 		SqlRowSet result = jdbcTemplate.queryForRowSet(sqlSelectUnfilledOrders);
 		while (result.next()) {
 			orders.add(mapRowToOrder(result));
 		}
 		return orders;
+	}
+	
+	public Order getOrderByOrderId(long orderId) {
+		Order order = null;
+		String sqlSelectOrderByOrderId = "select * from purchase_order where purchase_order_id = ?";
+		SqlRowSet result = jdbcTemplate.queryForRowSet(sqlSelectOrderByOrderId, orderId);
+		if (result.next()) {
+			order = mapRowToOrder(result);
+		}
+		return order;
 	}
 	
 	private Order mapRowToOrder(SqlRowSet result) {
@@ -86,6 +96,8 @@ public class JDBCOrderDAO implements OrderDAO {
 		order.setQuantity(result.getInt("quantity"));
 		return order;
 	}
+
+	
 
 	
 

@@ -112,6 +112,14 @@ public class JDBCDrinkDAOIntegrationTest extends JDBCIntegrationParent{
 		Assert.assertEquals(1,  drinks.size());
 	}
 	
+	@Test
+	public void returns_name_of_drink_searched_for() {
+		long drinkId = insertTestDrink();
+		Drink drink = drinkDAO.getDrinkByDrinkId(drinkId);
+		
+		Assert.assertEquals("test", drink.getName());
+	}
+	
 	private long insertTestDrink() {
 		String sqlInsertTestDrink = "insert into drink (brand, category, name, price, type) values ('test', 'Beer', 'test', 33, 'test') returning drink_id";
 		return jdbcTemplate.queryForObject(sqlInsertTestDrink, Long.class);

@@ -107,13 +107,14 @@ public class OpenbarCLI {
 	private void runEmployeeMenu() {
 		menu.displayApplicationBanner();
 		while(true) {
-			
+			menu.displayTextToUser("Id    Time              Status        Category      Qty.   Drink	                                        Customer Name");
+			menu.displayTextToUser("-----------------------------------------------------------------------------------------------------------------------------");
 			createEmloyeeOrderView();
 			String choice = (String)menu.getChoiceFromOptions(EMPLOYEE_MENU_OPTIONS);
 			if(choice.equals(EMPLOYEE_MENU_OPTION_SELECT_ORDER)) {
-//				handleSelectOrder();
+				handleSelectOrder();
 			} else if(choice.equals(EMPLOYEE_MENU_OPTION_MARK_DRINK_UNAVAILABLE)) {
-//				handleMarkDrinkUnavailable();
+				handleMarkDrinkUnavailable();
 			} else if(choice.equals(EMPLOYEE_MENU_OPTION_LOG_OUT)) {
 				break;
 			}
@@ -121,13 +122,37 @@ public class OpenbarCLI {
 		
 	}
 
+	private void handleMarkDrinkUnavailable() {
+		long orderId = menu.getOrderId();
+		Order order = orderDAO.getOrderByOrderId(orderId);
+		Drink drink = drinkDAO.getDrinkByDrinkId(order.getDrinkId());
+		drink.setAvailable(false);
+	}
+
+	private void handleSelectOrder() {
+		long orderId = menu.getOrderId();
+		Order order = orderDAO.getOrderByOrderId(orderId);
+		if(order.getFilledById() > 0);
+		else if (order.getFilledById() == -1) order.setFilledById(employee.getEmployeeId());
+		else order.setFilledById(-1l);
+	}
+
 	private void createEmloyeeOrderView() {
 		List<Order> orders = orderDAO.getAllOrders();
 		for (Order order: orders) {
 			Customer orderCustomer = customerDAO.lookupCustomerAccountByEmail(order.getEmail());
 			Drink orderDrink = drinkDAO.getDrinkByDrinkId(order.getDrinkId());
+			String status = getOrderStatus(order);
+			
+			menu.displayEmloyeeOrderView(order,  orderDrink,  orderCustomer, status);
 		}
 		
+	}
+	
+	private String getOrderStatus(Order order) {
+		if (order.getFilledById() > 0) return "Complete";
+		if (order.getFilledById() == -1) return "In Process";
+		return "";
 	}
 
 	private void runDrinkOrder(Customer customer) {

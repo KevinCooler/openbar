@@ -53,13 +53,13 @@ private JdbcTemplate jdbcTemplate;
 	}
 	
 	public Drink getDrinkByDrinkId(Long drinkId) {
-		Drink drink = new Drink();
+		Drink drink = null;
 		String sqlSelectDrinkByDrinkId = "select * from drink where drink_id = ?";
 		SqlRowSet result = jdbcTemplate.queryForRowSet(sqlSelectDrinkByDrinkId, drinkId);
 		if (result.next()) {
 			drink = mapRowToDrink(result);
 		}
-		return null;
+		return drink;
 	}
 		
 	private Drink mapRowToDrink(SqlRowSet result) {
