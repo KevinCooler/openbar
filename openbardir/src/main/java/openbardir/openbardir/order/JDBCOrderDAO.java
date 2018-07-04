@@ -97,6 +97,21 @@ public class JDBCOrderDAO implements OrderDAO {
 		return order;
 	}
 
+	public void updateOrder(Order order) {
+		String sqlUpdateDrinkId = "update purchase_order set drink_id = ? where purchase_order_id = ?";
+		String sqlUpdateEmail = "update purchase_order set customer_email = ? where purchase_order_id = ?";
+		String sqlUpdateQuantity = "update purchase_order set quantity = ? where purchase_order_id = ?";
+		String sqlUpdateComment = "update purchase_order set comment = ? where purchase_order_id = ?";
+		String sqlUpdateFilledById = "update purchase_order set filled_by_id = ? where purchase_order_id = ?";
+		String sqlUpdateDateTime = "update purchase_order set date_time = ? where purchase_order_id = ?";
+		jdbcTemplate.update(sqlUpdateDrinkId, order.getDrinkId(), order.getOrderId());
+		jdbcTemplate.update(sqlUpdateEmail, order.getEmail(), order.getOrderId());
+		jdbcTemplate.update(sqlUpdateQuantity, order.getQuantity(), order.getOrderId());
+		jdbcTemplate.update(sqlUpdateComment, order.getComment(), order.getOrderId());
+		jdbcTemplate.update(sqlUpdateFilledById, order.getFilledById(), order.getOrderId());
+		jdbcTemplate.update(sqlUpdateDateTime, order.getDateTime(), order.getOrderId());
+	}
+
 	
 
 	

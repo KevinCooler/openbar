@@ -205,9 +205,13 @@ public class Menu {
 		// Order Id         Time     Status          Category        Quantity     Drink	           Comment	           Customer Name
 		String comment = "";
 		if(order.getComment() != null && !order.getComment().equals("<none>")) comment = order.getComment();
+		
+		String drinkName = drink.getName();
+		if (!drink.isAvailable()) drinkName = "*" + drinkName;
+		
 		SimpleDateFormat format = new SimpleDateFormat("MMM dd HH:mm");
 		out.printf("%-5d %-17s %-13s %-13s %-6d %-35s %30s\n", 
-				order.getOrderId(), format.format(order.getDateTime()), status, drink.getCategory(), order.getQuantity(), drink.getName(), customer.getName());
+				order.getOrderId(), format.format(order.getDateTime()), status, drink.getCategory(), order.getQuantity(), drinkName, customer.getName());
 		out.println("                                                           " + comment);
 		out.println("-----------------------------------------------------------------------------------------------------------------------------");
 	}

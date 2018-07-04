@@ -31,7 +31,7 @@ private JdbcTemplate jdbcTemplate;
 		String sqlSelectAllOrderedDrinks = "select drink.drink_id, category, type, brand, name, price, is_available from drink \n" + 
 				"join purchase_order on drink.drink_id = purchase_order.drink_id \n" + 
 				"where is_available = true\n" + 
-				"order by date_time desc";
+				"order by date_time";
 		SqlRowSet result = jdbcTemplate.queryForRowSet(sqlSelectAllOrderedDrinks);
 		while (result.next()) {
 			allOrderedDrinks.add(mapRowToDrink(result));
@@ -44,7 +44,7 @@ private JdbcTemplate jdbcTemplate;
 		String sqlSelectYourOrderedDrinks = "select drink.drink_id, category, type, brand, name, price, is_available from drink \n" + 
 				"join purchase_order on drink.drink_id = purchase_order.drink_id \n" + 
 				"where is_available = true and customer_email = ?\n" + 
-				"order by date_time desc";
+				"order by date_time";
 		SqlRowSet result = jdbcTemplate.queryForRowSet(sqlSelectYourOrderedDrinks, email);
 		while (result.next()) {
 			yourOrderedDrinks.add(mapRowToDrink(result));
@@ -61,7 +61,22 @@ private JdbcTemplate jdbcTemplate;
 		}
 		return drink;
 	}
-		
+	
+	public void updateDrink(Drink drink) {
+		String sqlUpdateAvailable = "update drink set is_available = ? where drink_id = ?";
+		String sqlUpdateCategory = "update drink set category = ? where drink_id = ?";
+		String sqlUpdateType = "update drink set type = ? where drink_id = ?";
+		String sqlUpdateBrand = "update drink set brand = ? where drink_id = ?";
+		String sqlUpdateName = "update drink set name = ? where drink_id = ?";
+		String sqlUpdatePrice = "update drink set price = ? where drink_id = ?";
+		jdbcTemplate.update(sqlUpdateAvailable, drink.isAvailable(), drink.getDrinkId());
+		jdbcTemplate.update(sqlUpdateCategory, drink.getCategory(), drink.getDrinkId());
+		jdbcTemplate.update(sqlUpdateType, drink.getType(), drink.getDrinkId());
+		jdbcTemplate.update(sqlUpdateBrand, drink.getBrand(), drink.getDrinkId());
+		jdbcTemplate.update(sqlUpdateName, drink.getName(), drink.getDrinkId());
+		jdbcTemplate.update(sqlUpdatePrice, drink.getPrice(), drink.getDrinkId());
+
+	}
 	private Drink mapRowToDrink(SqlRowSet result) {
 		Drink drink = new Drink();
 		drink.setDrinkId(result.getLong("drink_id"));
@@ -73,6 +88,8 @@ private JdbcTemplate jdbcTemplate;
 		drink.setType(result.getString("type"));
 		return drink;
 	}
+
+	
 
 
 

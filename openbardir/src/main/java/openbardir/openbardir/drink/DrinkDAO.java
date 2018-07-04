@@ -8,5 +8,6 @@ public interface DrinkDAO {
 	public List<Drink> getDrinksOfAllOrders();
 	public List<Drink> getDrinksOfAllOrdersByEmail(String email);
 	public Drink getDrinkByDrinkId(Long drinkId);
+	public void updateDrink(Drink drink);
 
 }

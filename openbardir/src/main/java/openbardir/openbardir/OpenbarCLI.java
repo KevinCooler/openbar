@@ -112,14 +112,13 @@ public class OpenbarCLI {
 			createEmloyeeOrderView();
 			String choice = (String)menu.getChoiceFromOptions(EMPLOYEE_MENU_OPTIONS);
 			if(choice.equals(EMPLOYEE_MENU_OPTION_SELECT_ORDER)) {
-				handleSelectOrder();
+				handleEmployeeSelectOrder();
 			} else if(choice.equals(EMPLOYEE_MENU_OPTION_MARK_DRINK_UNAVAILABLE)) {
 				handleMarkDrinkUnavailable();
 			} else if(choice.equals(EMPLOYEE_MENU_OPTION_LOG_OUT)) {
 				break;
 			}
 		}
-		
 	}
 
 	private void handleMarkDrinkUnavailable() {
@@ -127,14 +126,16 @@ public class OpenbarCLI {
 		Order order = orderDAO.getOrderByOrderId(orderId);
 		Drink drink = drinkDAO.getDrinkByDrinkId(order.getDrinkId());
 		drink.setAvailable(false);
+		drinkDAO.updateDrink(drink);
 	}
 
-	private void handleSelectOrder() {
+	private void handleEmployeeSelectOrder() {
 		long orderId = menu.getOrderId();
 		Order order = orderDAO.getOrderByOrderId(orderId);
 		if(order.getFilledById() > 0);
 		else if (order.getFilledById() == -1) order.setFilledById(employee.getEmployeeId());
 		else order.setFilledById(-1l);
+		orderDAO.updateOrder(order);
 	}
 
 	private void createEmloyeeOrderView() {
