@@ -107,24 +107,20 @@ h3{
     color: #4b0082;
     font-size: 1.4em;
 }
+
+#meisters{
+    font-family: 'Galada', cursive;
+}
+
+#short-north-tavern{
+    height: 120px;
+    margin: 0 auto;
+    
+}
 .votes img {
     height: 30px;
 }
 .mins-ago {
     font-size: .5em;
     margin: auto 0;
-}
-
-#grandview-cafe {
-    background-color: grey;
-    height: 100px;
-    margin: 2px auto;
-}
-#meisters{
-    font-family: 'Galada', cursive;
-}
-#short-north-tavern{
-    height: 120px;
-    margin: 0 auto;
-    
 }
