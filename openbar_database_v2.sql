@@ -141,12 +141,36 @@ insert into name (name, price) values ('Citron', 5);
 insert into name (name, price) values ('Beefeater', 5);
 insert into name (name, price) values ('Hennessy', 6);
 insert into name (name, price) values ('Hendricks', 7);
+
+insert into employee(first_name, last_name) values ('Anders', 'Miller');
+insert into employee(first_name, last_name) values ('Brandon', 'Nazek');
+insert into employee(first_name, last_name) values ('James', 'Graves');
+
+create table employee(
+        employee_id serial,
+        bar_id int not null,
+        first_name varchar(35) not null,
+        last_name varchar(35) not null,
+        
+        constraint pk_employee_id primary key (employee_id)
+        constraint fk_bar_id foreign key (bar_id) references bar (bar_id)
+);
+
 */
 --create database openbar;
+drop table bar_drink;
 drop table purchase_order;
 drop table drink;
 drop table customer;
-drop table employee;
+drop table bar;
+
+create table bar(
+        bar_id serial,
+        name varchar(100) not null,
+        account_number varchar (16) not null,
+        
+        constraint pk_bar_id primary key (bar_id)
+);
 
 create table customer(
         email varchar (50),
@@ -156,45 +180,44 @@ create table customer(
         constraint pk_email primary key (email)
 );
 
-create table employee(
-        employee_id serial,
-        first_name varchar(35) not null,
-        last_name varchar(35) not null,
-        
-        constraint pk_employee_id primary key (employee_id)
-);
-
 create table drink(
         drink_id serial,
         category varchar(35) check (category in ('Beer', 'Wine', 'Liquor')),
         type varchar(35) not null,
         brand varchar(35) not null,
         name varchar(35) not null,
-        price decimal(4, 2) not null,
-        is_available boolean default true,
         
         constraint pk_drink_id primary key (drink_id)
+);
+
+create table bar_drink(
+        drink_id int not null,
+        bar_id int not null,
+        price decimal(4, 2) not null,
+        is_available boolean default true,
+        is_special boolean default false,
+        
+        constraint fk_drink_id foreign key (drink_id) references drink (drink_id),
+        constraint fk_bar_id foreign key (bar_id) references bar (bar_id)
 );
 
 create table purchase_order(
         purchase_order_id serial,
         drink_id int not null,
-        date_time timestamp default now(),
         customer_email varchar(100) not null,
-        filled_by_id int,
+        bar_id int not null,
+        date_time timestamp default now(),
+        status varchar (35) check (status in ('', 'Complete', 'In Process')),
         quantity int default 1,
         comment varchar (200),
-        
         
         constraint pk_purchase_order_id primary key (purchase_order_id),
         constraint fk_drink_id foreign key (drink_id) references drink (drink_id),
         constraint fk_customer_email foreign key (customer_email) references customer (email),
-        constraint fk_filled_by_id foreign key (filled_by_id) references employee (employee_id)
+        constraint fk_bar_id foreign key (bar_id) references bar (bar_id)
 );
 
-insert into employee(first_name, last_name) values ('Anders', 'Miller');
-insert into employee(first_name, last_name) values ('Brandon', 'Nazek');
-insert into employee(first_name, last_name) values ('James', 'Graves');
+
 
 insert into customer (email, credit_card_number, name) values('kcooler@gmail.com', '12345678901234', 'Kevin');
 insert into customer (email, credit_card_number, name) values('arizkallah@gmail.com', '23456789012345', 'Andrew');
