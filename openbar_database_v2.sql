@@ -1,162 +1,4 @@
-/*
-drop table category;
-drop table type;
-drop table brand;
-drop table name;
-drop table mixer;
 
-create table category(
-        category varchar(35),
-        process_seconds int default 30,
-        
-        constraint pk_category primary key (category)
-);
-
-create table type(
-        type varchar(35),
-        
-        constraint pk_type primary key (type)
-);
-
-create table brand(
-        brand varchar(35),
-        
-        constraint pk_brand primary key (brand)
-);
-
-create table name(
-        name varchar(35),
-        
-        constraint pk_name primary key (name)
-);
-
-create table mixer(
-        mixer varchar(35),
-        
-        constraint pk_mixer primary key (mixer)
-);
-
-        constraint fk_category foreign key (category) references category (category),
-        constraint fk_type foreign key (type) references type (type),
-        constraint fk_brand foreign key (brand) references brand (brand),
-        constraint fk_name foreign key (name) references name (name),
-        constraint fk_mixer foreign key (mixer) references mixer (mixer)
-        
-*/
-
-/*
-insert into mixer (mixer) values ('Tonic');
-insert into mixer (mixer) values ('Soda');
-insert into mixer (mixer) values ('Gingerale');
-insert into mixer (mixer) values ('Coke');
-insert into mixer (mixer) values ('Diet Coke');
-insert into mixer (mixer) values ('Sprite');
-insert into mixer (mixer) values ('Orange Juice');
-insert into mixer (mixer) values ('Cranberry Juice');
-*/
-
-/*
-insert into type (type) values ('IPA');
-insert into type (type) values ('Lager');
-insert into type (type) values ('Pale Ale');
-insert into type (type) values ('Porter');
-insert into type (type) values ('Stout');
-insert into type (type) values ('Wheat');
-insert into type (type) values ('Cider');
-insert into type (type) values ('Saison');
-insert into type (type) values ('Ale');
-
-insert into brand (brand) values ('Budweiser');
-insert into brand (brand) values ('Miller');
-insert into brand (brand) values ('Seventh Son');
-insert into brand (brand) values ('Bells');
-insert into brand (brand) values ('New Belgium');
-insert into brand (brand) values ('Guinness');
-insert into brand (brand) values ('Corona');
-insert into brand (brand) values ('Coors');
-insert into brand (brand) values ('Yuengling');
-insert into brand (brand) values ('Pabst');
-
-insert into name (name, price) values ('Bud Light', 3);
-insert into name (name, price) values ('Coors Light', 3);
-insert into name (name, price) values ('Budweiser', 3);
-insert into name (name, price) values ('Miller Light', 3);
-insert into name (name, price) values ('Miller High Life', 3);
-insert into name (name, price) values ('Corona Light', 4);
-insert into name (name, price) values ('Corona Extra', 4);
-insert into name (name, price) values ('Scientist', 5);
-insert into name (name, price) values ('Cougar', 5);
-insert into name (name, price) values ('PBR', 2);
-insert into name (name, price) values ('Oberon', 5);
-insert into name (name, price) values ('Two Hearted', 5);
-*/
-/*
-insert into type (type) values ('Red');
-insert into type (type) values ('Rose');
-insert into type (type) values ('White');
-
-insert into brand (brand) values ('Mascota Vineyards');
-insert into brand (brand) values ('Olema');
-insert into brand (brand) values ('Chateau Pierre de Montignac');
-insert into brand (brand) values ('Josh Cellars Family Reserve ');
-insert into brand (brand) values ('Verada Tri-County');
-
-insert into name (name, price) values ('Unánime', 10);
-insert into name (name, price) values ('Olema', 9);
-insert into name (name, price) values ('Chateau Pierre de Montignac', 8);
-insert into name (name, price) values ('Pinot Noir', 7);
-insert into name (name, price) values ('Cabernet Sauvignon', 6);
-*/
-/*
-insert into type (type) values ('Whiskey');
-insert into type (type) values ('Bourbon');
-insert into type (type) values ('Vodka');
-insert into type (type) values ('Tequilla');
-insert into type (type) values ('Gin');
-insert into type (type) values ('Rum');
-insert into type (type) values ('Brandy');
-
-insert into brand (brand) values ('Titos');
-insert into brand (brand) values ('Blantons');
-insert into brand (brand) values ('Jack Daniels');
-insert into brand (brand) values ('Captain Morgan');
-insert into brand (brand) values ('Patron');
-insert into brand (brand) values ('Bacardi');
-insert into brand (brand) values ('Jim Beam');
-insert into brand (brand) values ('Absolute');
-insert into brand (brand) values ('Beefeater');
-insert into brand (brand) values ('Hendricks');
-insert into brand (brand) values ('Hennessy');
-
-insert into name (name, price) values ('Titos', 5);
-insert into name (name, price) values ('Blantons', 7);
-insert into name (name, price) values ('Jack Daniels', 5);
-insert into name (name, price) values ('Jack Daniels Green Apple', 5);
-insert into name (name, price) values ('Jack Daniels Honey', 5);
-insert into name (name, price) values ('Captain Morgan', 5);
-insert into name (name, price) values ('Silver', 7);
-insert into name (name, price) values ('Gold', 7);
-insert into name (name, price) values ('Jim Beam Apple', 5);
-insert into name (name, price) values ('Citron', 5);
-insert into name (name, price) values ('Beefeater', 5);
-insert into name (name, price) values ('Hennessy', 6);
-insert into name (name, price) values ('Hendricks', 7);
-
-insert into employee(first_name, last_name) values ('Anders', 'Miller');
-insert into employee(first_name, last_name) values ('Brandon', 'Nazek');
-insert into employee(first_name, last_name) values ('James', 'Graves');
-
-create table employee(
-        employee_id serial,
-        bar_id int not null,
-        first_name varchar(35) not null,
-        last_name varchar(35) not null,
-        
-        constraint pk_employee_id primary key (employee_id)
-        constraint fk_bar_id foreign key (bar_id) references bar (bar_id)
-);
-
-*/
 --create database openbar;
 drop table bar_drink;
 drop table purchase_order;
@@ -204,7 +46,7 @@ create table bar_drink(
 create table purchase_order(
         purchase_order_id serial,
         drink_id int not null,
-        customer_email varchar(100) not null,
+        email varchar(100) not null,
         bar_id int not null,
         date_time timestamp default now(),
         status varchar (35) check (status in ('', 'Complete', 'In Process')),
@@ -213,7 +55,7 @@ create table purchase_order(
         
         constraint pk_purchase_order_id primary key (purchase_order_id),
         constraint fk_drink_id foreign key (drink_id) references drink (drink_id),
-        constraint fk_customer_email foreign key (customer_email) references customer (email),
+        constraint fk_email foreign key (email) references customer (email),
         constraint fk_bar_id foreign key (bar_id) references bar (bar_id)
 );
 
@@ -226,61 +68,207 @@ insert into customer (email, credit_card_number, name) values('bstephas@gmail.co
 insert into customer (email, credit_card_number, name) values('scooler@gmail.com', '56789012345678', 'Sam');
 insert into customer (email, credit_card_number, name) values('sfunk@gmail.com', '67890123456789', 'Steve');
 
+insert into bar (name, account_number) values('Short North Tavern', '7890123456789012');
+insert into bar (name, account_number) values('Meisters', '7890123456789012');
+insert into bar (name, account_number) values('Grandview Cafe', '7890123456789012');
+insert into bar (name, account_number) values('Bodega', '7890123456789012');
 
-insert into drink (category, type, brand, name, price) values ('Beer', 'Lager', 'Yuengling', 'Yuengling', 3);
-insert into drink (category, type, brand, name, price) values ('Beer', 'IPA', 'Seventh Son', 'Scientist', 6);
-insert into drink (category, type, brand, name, price) values ('Beer', 'Lager', 'Budweiser', 'Budweiser', 3);
-insert into drink (category, type, brand, name, price) values ('Beer', 'Lager', 'Budweiser', 'Bud Light', 3);
-insert into drink (category, type, brand, name, price) values ('Beer', 'Lager', 'Miller', 'Miller Light', 3);
-insert into drink (category, type, brand, name, price) values ('Beer', 'Lager', 'Miller', 'High Life', 3);
-insert into drink (category, type, brand, name, price) values ('Beer', 'Wheat', 'Seventh Son', 'Cougar', 6);
-insert into drink (category, type, brand, name, price) values ('Beer', 'Nitro', 'Guinness', 'Guinness', 5);
-insert into drink (category, type, brand, name, price) values ('Beer', 'IPA', 'Sierra Nevada', 'Torpedo', 6);
-insert into drink (category, type, brand, name, price) values ('Beer', 'Mexican Lager', 'Corona', 'Corona Light', 4);
-insert into drink (category, type, brand, name, price) values ('Beer', 'Mexican Lager', 'Corona', 'Corona Extra', 4);
-insert into drink (category, type, brand, name, price) values ('Beer', 'Wheat', 'Blue Moon', 'Blue Moon', 5);
-insert into drink (category, type, brand, name, price) values ('Beer', 'Lager', 'Pabst', 'PBR', 2);
-insert into drink (category, type, brand, name, price) values ('Wine', 'White', 'Mascota Vineyards', 'Unánime', 10);
-insert into drink (category, type, brand, name, price) values ('Wine', 'White', 'Olema', 'Olema', 9);
-insert into drink (category, type, brand, name, price) values ('Wine', 'Red', 'Chateau Pierre de Montignac', 'Chateau Pierre de Montignac', 8);
-insert into drink (category, type, brand, name, price) values ('Wine', 'Red', 'Josh Cellars Family Reserve', 'Pinot Noir', 7);
-insert into drink (category, type, brand, name, price, is_available) values ('Wine', 'Red', 'Verada Tri-County', 'Cabernet Sauvignon', 6, false);
-insert into drink (category, type, brand, name, price) values ('Liquor', 'Bourbon', 'Blantons', 'Blantons', 10);
-insert into drink (category, type, brand, name, price) values ('Liquor', 'Whiskey', 'Jack Daniels', 'Jack Daniels', 5);
-insert into drink (category, type, brand, name, price) values ('Liquor', 'Whiskey', 'Jack Daniels', 'Jack Daniels Green Apple', 5);
-insert into drink (category, type, brand, name, price) values ('Liquor', 'Whiskey', 'Jack Daniels', 'Jack Daniels Honey', 5);
-insert into drink (category, type, brand, name, price) values ('Liquor', 'Bourbon', 'Jim Beam', 'Jim Beam Single Barrel', 7);
-insert into drink (category, type, brand, name, price) values ('Liquor', 'Vodka', 'Titos', 'Titos', 5);
-insert into drink (category, type, brand, name, price) values ('Liquor', 'Vodka', 'Absolute', 'Absolute Citron', 5);
-insert into drink (category, type, brand, name, price) values ('Liquor', 'Tequilla', 'Patron', 'Patron Gold', 7);
-insert into drink (category, type, brand, name, price) values ('Liquor', 'Gin', 'Gin', 'Hendricks', 5);
-insert into drink (category, type, brand, name, price) values ('Liquor', 'Rum', 'Bacardi', 'Bacardi White', 6);
-insert into drink (category, type, brand, name, price) values ('Liquor', 'Rum', 'Captain Morgan', 'Captain Morgan', 5);
-insert into drink (category, type, brand, name, price) values ('Liquor', 'Brandy', 'Hennessy', 'Hennessy', 7);
+insert into drink (category, type, brand, name) values ('Beer', 'Lager', 'Yuengling', 'Yuengling');
+insert into drink (category, type, brand, name) values ('Beer', 'IPA', 'Seventh Son', 'Scientist');
+insert into drink (category, type, brand, name) values ('Beer', 'Lager', 'Budweiser', 'Budweiser');
+insert into drink (category, type, brand, name) values ('Beer', 'Lager', 'Budweiser', 'Bud Light');
+insert into drink (category, type, brand, name) values ('Beer', 'Lager', 'Miller', 'Miller Light');
+insert into drink (category, type, brand, name) values ('Beer', 'Lager', 'Miller', 'High Life');
+insert into drink (category, type, brand, name) values ('Beer', 'Wheat', 'Seventh Son', 'Cougar');
+insert into drink (category, type, brand, name) values ('Beer', 'Nitro', 'Guinness', 'Guinness');
+insert into drink (category, type, brand, name) values ('Beer', 'IPA', 'Sierra Nevada', 'Torpedo');
+insert into drink (category, type, brand, name) values ('Beer', 'Mexican Lager', 'Corona', 'Corona Light');
+insert into drink (category, type, brand, name) values ('Beer', 'Mexican Lager', 'Corona', 'Corona Extra');
+insert into drink (category, type, brand, name) values ('Beer', 'Wheat', 'Blue Moon', 'Blue Moon');
+insert into drink (category, type, brand, name) values ('Beer', 'Lager', 'Pabst', 'PBR');
+insert into drink (category, type, brand, name) values ('Wine', 'White', 'Mascota Vineyards', 'Unánime');
+insert into drink (category, type, brand, name) values ('Wine', 'White', 'Olema', 'Olema');
+insert into drink (category, type, brand, name) values ('Wine', 'Red', 'Chateau Pierre de Montignac', 'Chateau Pierre de Montignac');
+insert into drink (category, type, brand, name) values ('Wine', 'Red', 'Josh Cellars Family Reserve', 'Pinot Noir');
+insert into drink (category, type, brand, name) values ('Wine', 'Red', 'Verada Tri-County', 'Cabernet Sauvignon');
+insert into drink (category, type, brand, name) values ('Liquor', 'Bourbon', 'Blantons', 'Blantons');
+insert into drink (category, type, brand, name) values ('Liquor', 'Whiskey', 'Jack Daniels', 'Jack Daniels');
+insert into drink (category, type, brand, name) values ('Liquor', 'Whiskey', 'Jack Daniels', 'Jack Daniels Green Apple');
+insert into drink (category, type, brand, name) values ('Liquor', 'Whiskey', 'Jack Daniels', 'Jack Daniels Honey');
+insert into drink (category, type, brand, name) values ('Liquor', 'Bourbon', 'Jim Beam', 'Jim Beam Single Barrel');
+insert into drink (category, type, brand, name) values ('Liquor', 'Vodka', 'Titos', 'Titos');
+insert into drink (category, type, brand, name) values ('Liquor', 'Vodka', 'Absolute', 'Absolute Citron');
+insert into drink (category, type, brand, name) values ('Liquor', 'Tequilla', 'Patron', 'Patron Gold');
+insert into drink (category, type, brand, name) values ('Liquor', 'Gin', 'Gin', 'Hendricks');
+insert into drink (category, type, brand, name) values ('Liquor', 'Rum', 'Bacardi', 'Bacardi White');
+insert into drink (category, type, brand, name) values ('Liquor', 'Rum', 'Captain Morgan', 'Captain Morgan');
+insert into drink (category, type, brand, name) values ('Liquor', 'Brandy', 'Hennessy', 'Hennessy');
+
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (1, 1, 3, true, false);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (1, 2, 3, true, false);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (1, 3, 3, true, false);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (1, 4, 4, true, false);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (1, 5, 5, true, false);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (1, 6, 3, false, false);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (1, 7, 6, true, false);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (1, 8, 4, true, false);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (1, 9, 4, true, false);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (1, 10, 5, true, true);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (1, 11, 5, true, true);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (1, 12, 5, true, true);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (1, 13, 5, true, false);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (1, 14, 6, true, false);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (1, 15, 6, true, false);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (1, 16, 6, true, false);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (1, 17, 6, true, false);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (1, 18, 3, true, false);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (1, 19, 3, true, false);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (1, 20, 3, true, false);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (1, 21, 8, true, false);
+
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (2, 10, 4, true, false);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (2, 11, 4, true, false);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (2, 12, 4, true, false);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (2, 13, 5, true, false);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (2, 14, 6, true, false);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (2, 15, 6, true, false);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (2, 16, 3, true, false);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (2, 17, 3, true, false);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (2, 18, 5, true, false);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (2, 19, 5, true, false);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (2, 20, 3, true, false);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (2, 21, 5, true, false);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (2, 22, 3, true, false);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (2, 23, 4, true, false);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (2, 24, 3, true, false);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (2, 25, 2, false, false);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (2, 26, 2, true, false);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (2, 27, 3, true, true);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (2, 28, 7, true, true);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (2, 29, 7, true, true);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (2, 30, 6, true, false);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (2, 1, 3, true, false);
+
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (3, 2, 3, true, true);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (3, 3, 4, true, true);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (3, 5, 3, true, true);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (3, 6, 4, true, false);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (3, 7, 3, true, false);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (3, 8, 4, true, false);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (3, 19, 3, true, false);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (3, 20, 5, true, false);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (3, 21, 5, true, false);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (3, 22, 5, false, false);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (3, 23, 3, true, false);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (3, 24, 6, true, false);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (3, 25, 6, false, false);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (3, 26, 6, true, false);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (3, 27, 7, true, false);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (3, 28, 3, true, false);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (3, 29, 3, true, false);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (3, 30, 3, true, false);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (3, 1, 3, true, false);
+
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (4, 12, 3, true, true);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (4, 13, 4, true, true);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (4, 15, 3, true, true);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (4, 16, 4, true, false);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (4, 17, 3, true, false);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (4, 8, 4, true, false);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (4, 19, 3, true, false);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (4, 20, 5, true, false);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (4, 21, 5, true, false);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (4, 22, 5, false, false);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (4, 23, 3, true, false);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (4, 24, 6, true, false);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (4, 25, 6, false, false);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (4, 26, 6, true, false);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (4, 27, 7, true, false);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (4, 5, 3, true, false);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (4, 4, 3, true, false);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (4, 3, 3, true, false);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (4, 1, 3, true, false);
+insert into bar_drink (bar_id, drink_id, price, is_available, is_special) values (4, 2, 3, true, false);
+
+insert into purchase_order (drink_id, email, bar_id, status, quantity, comment) values (11, 'kcooler@gmail.com', 1, 'Complete', 1, 'with a lime');
+insert into purchase_order (drink_id, email, bar_id, status, quantity) values (1, 'kcooler@gmail.com', 1, 'Complete', 2);
+insert into purchase_order (drink_id, email, bar_id, status, quantity) values (4, 'dstauffer@gmail.com', 1, 'Complete', 1);
+insert into purchase_order (drink_id, email, bar_id, status, quantity) values (19, 'kcooler@gmail.com', 1, 'Complete', 1);
+insert into purchase_order (drink_id, email, bar_id, status, quantity) values (6, 'arizkallah@gmail.com', 1, 'Complete', 1);
+insert into purchase_order (drink_id, email, bar_id, status, quantity, comment) values (20, 'scooler@gmail.com', 1, 'Complete', 1, 'with soda');
+insert into purchase_order (drink_id, email, bar_id, status, quantity) values (3, 'kcooler@gmail.com', 1, 'Complete', 3);
+insert into purchase_order (drink_id, email, bar_id, status, quantity) values (9, 'bstephas@gmail.com', 1, 'Complete', 1);
+insert into purchase_order (drink_id, email, bar_id, status, quantity) values (10, 'arizkallah@gmail.com', 1, 'Complete', 1);
+insert into purchase_order (drink_id, email, bar_id, status, quantity, comment) values (19, 'sfunk@gmail.com', 1, 'Complete', 10, 'shots');
+insert into purchase_order (drink_id, email, bar_id, status, quantity) values (8, 'kcooler@gmail.com', 1, 'In Process', 1);
+insert into purchase_order (drink_id, email, bar_id, status, quantity, comment) values (21, 'arizkallah@gmail.com', 1, 'In Process', 2, 'with coke');
+insert into purchase_order (drink_id, email, bar_id, status, quantity) values (12, 'dstauffer@gmail.com', 1, 'In Process', 1);
+insert into purchase_order (drink_id, email, bar_id, status, quantity, comment) values (21, 'bstephas@gmail.com', 1, '', 1, 'with tonic');
+insert into purchase_order (drink_id, email, bar_id, status, quantity) values (13, 'kcooler@gmail.com', 1, '', 1);
+insert into purchase_order (drink_id, email, bar_id, status, quantity) values (18, 'sfunk@gmail.com', 1, '', 4);
+insert into purchase_order (drink_id, email, bar_id, status, quantity, comment) values (15, 'kcooler@gmail.com', 1, '', 2, 'with orange juice');
+insert into purchase_order (drink_id, email, bar_id, status, quantity, comment) values (16, 'sfunk@gmail.com', 1, '', 1, 'neat');
+insert into purchase_order (drink_id, email, bar_id, status, quantity, comment) values (17, 'scooler@gmail.com', 1, '', 2, 'with diet');
+insert into purchase_order (drink_id, email, bar_id, status, quantity) values (14, 'kcooler@gmail.com', 1, '', 1);
+
+insert into purchase_order (drink_id, email, bar_id, status, quantity) values (23, 'kcooler@gmail.com', 2, 'Complete', 3);
+insert into purchase_order (drink_id, email, bar_id, status, quantity) values (29, 'bstephas@gmail.com', 2, 'Complete', 1);
+insert into purchase_order (drink_id, email, bar_id, status, quantity) values (20, 'arizkallah@gmail.com', 2, 'Complete', 1);
+insert into purchase_order (drink_id, email, bar_id, status, quantity, comment) values (19, 'sfunk@gmail.com', 2, 'Complete', 10, 'shots');
+insert into purchase_order (drink_id, email, bar_id, status, quantity) values (28, 'kcooler@gmail.com', 2, 'Complete', 1);
+insert into purchase_order (drink_id, email, bar_id, status, quantity, comment) values (21, 'arizkallah@gmail.com', 1, 'Complete', 2, 'with coke');
+insert into purchase_order (drink_id, email, bar_id, status, quantity) values (22, 'dstauffer@gmail.com', 2, 'Complete', 1);
+insert into purchase_order (drink_id, email, bar_id, status, quantity, comment) values (21, 'bstephas@gmail.com', 2, 'Complete', 1, 'with tonic');
+insert into purchase_order (drink_id, email, bar_id, status, quantity) values (23, 'kcooler@gmail.com', 2, 'Complete', 1);
+insert into purchase_order (drink_id, email, bar_id, status, quantity) values (18, 'sfunk@gmail.com', 2, 'In Process', 4);
+insert into purchase_order (drink_id, email, bar_id, status, quantity, comment) values (15, 'kcooler@gmail.com', 2, 'In Process', 2, 'with orange juice');
+insert into purchase_order (drink_id, email, bar_id, status, quantity, comment) values (16, 'sfunk@gmail.com', 2, '', 1, 'neat');
+insert into purchase_order (drink_id, email, bar_id, status, quantity, comment) values (17, 'scooler@gmail.com', 2, '', 2, 'with diet');
+insert into purchase_order (drink_id, email, bar_id, status, quantity) values (14, 'kcooler@gmail.com', 2, '', 1);
+insert into purchase_order (drink_id, email, bar_id, status, quantity) values (19, 'kcooler@gmail.com', 2, '', 1);
+insert into purchase_order (drink_id, email, bar_id, status, quantity) values (26, 'arizkallah@gmail.com', 2, '', 1);
+insert into purchase_order (drink_id, email, bar_id, status, quantity, comment) values (20, 'scooler@gmail.com', 2, '', 1, 'with soda');
 
 
-insert into purchase_order (drink_id, customer_email, quantity, comment) values (11, 'kcooler@gmail.com', 1, 'with a lime');
-insert into purchase_order (drink_id, customer_email, quantity) values (1, 'kcooler@gmail.com', 2);
-insert into purchase_order (drink_id, customer_email, quantity) values (4, 'dstauffer@gmail.com', 1);
-insert into purchase_order (drink_id, customer_email, quantity) values (19, 'kcooler@gmail.com', 1);
-insert into purchase_order (drink_id, customer_email, quantity) values (6, 'arizkallah@gmail.com', 1);
-insert into purchase_order (drink_id, customer_email, quantity, comment) values (22, 'scooler@gmail.com', 1, 'with soda');
-insert into purchase_order (drink_id, customer_email, quantity) values (3, 'kcooler@gmail.com', 3);
-insert into purchase_order (drink_id, customer_email, quantity) values (9, 'bstephas@gmail.com', 1);
-insert into purchase_order (drink_id, customer_email, quantity) values (10, 'arizkallah@gmail.com', 1);
-insert into purchase_order (drink_id, customer_email, quantity, comment) values (29, 'sfunk@gmail.com', 10, 'shots');
-insert into purchase_order (drink_id, customer_email, quantity) values (8, 'kcooler@gmail.com', 1);
-insert into purchase_order (drink_id, customer_email, quantity, comment) values (28, 'arizkallah@gmail.com', 2, 'with coke');
-insert into purchase_order (drink_id, customer_email, quantity) values (12, 'dstauffer@gmail.com', 1);
-insert into purchase_order (drink_id, customer_email, quantity, comment) values (24, 'bstephas@gmail.com', 1, 'with tonic');
-insert into purchase_order (drink_id, customer_email, quantity) values (21, 'kcooler@gmail.com', 1);
-insert into purchase_order (drink_id, customer_email, quantity) values (18, 'sfunk@gmail.com', 4);
-insert into purchase_order (drink_id, customer_email, quantity, comment) values (23, 'kcooler@gmail.com', 2, 'with orange juice');
-insert into purchase_order (drink_id, customer_email, quantity, comment) values (23, 'sfunk@gmail.com', 1, 'neat');
-insert into purchase_order (drink_id, customer_email, quantity, comment) values (23, 'scooler@gmail.com', 2, 'with diet');
-insert into purchase_order (drink_id, customer_email, quantity) values (14, 'kcooler@gmail.com', 1);
+insert into purchase_order (drink_id, email, bar_id, status, quantity) values (2, 'kcooler@gmail.com', 3, 'Complete', 1);
+insert into purchase_order (drink_id, email, bar_id, status, quantity) values (6, 'arizkallah@gmail.com', 3, 'Complete', 1);
+insert into purchase_order (drink_id, email, bar_id, status, quantity, comment) values (20, 'scooler@gmail.com', 3, 'Complete', 1, 'with soda');
+insert into purchase_order (drink_id, email, bar_id, status, quantity) values (23, 'kcooler@gmail.com', 3, 'Complete', 3);
+insert into purchase_order (drink_id, email, bar_id, status, quantity) values (29, 'bstephas@gmail.com', 3, 'Complete', 1);
+insert into purchase_order (drink_id, email, bar_id, status, quantity) values (20, 'arizkallah@gmail.com', 3, 'Complete', 1);
+insert into purchase_order (drink_id, email, bar_id, status, quantity, comment) values (19, 'sfunk@gmail.com', 3, 'Complete', 10, 'shots');
+insert into purchase_order (drink_id, email, bar_id, status, quantity) values (8, 'kcooler@gmail.com', 3, 'Complete', 1);
+insert into purchase_order (drink_id, email, bar_id, status, quantity, comment) values (21, 'arizkallah@gmail.com', 3, 'Complete', 2, 'with coke');
+insert into purchase_order (drink_id, email, bar_id, status, quantity) values (2, 'dstauffer@gmail.com', 3, 'Complete', 1);
+insert into purchase_order (drink_id, email, bar_id, status, quantity, comment) values (21, 'bstephas@gmail.com', 3, 'Complete', 1, 'with tonic');
+insert into purchase_order (drink_id, email, bar_id, status, quantity) values (23, 'kcooler@gmail.com', 3, 'Complete', 1);
+insert into purchase_order (drink_id, email, bar_id, status, quantity) values (18, 'sfunk@gmail.com', 3, 'In Process', 4);
+insert into purchase_order (drink_id, email, bar_id, status, quantity, comment) values (15, 'kcooler@gmail.com', 3, 'In Process', 2, 'with orange juice');
+insert into purchase_order (drink_id, email, bar_id, status, quantity, comment) values (16, 'sfunk@gmail.com', 3, '', 1, 'neat');
+insert into purchase_order (drink_id, email, bar_id, status, quantity, comment) values (17, 'scooler@gmail.com', 3, '', 2, 'with diet');
+insert into purchase_order (drink_id, email, bar_id, status, quantity) values (14, 'kcooler@gmail.com', 3, '', 1);
+insert into purchase_order (drink_id, email, bar_id, status, quantity, comment) values (11, 'kcooler@gmail.com', 3, '', 1, 'with a lime');
+insert into purchase_order (drink_id, email, bar_id, status, quantity) values (1, 'kcooler@gmail.com', 3, '', 2);
+insert into purchase_order (drink_id, email, bar_id, status, quantity) values (4, 'dstauffer@gmail.com', 3, '', 1);
+insert into purchase_order (drink_id, email, bar_id, status, quantity) values (19, 'kcooler@gmail.com', 3, '', 1);
+insert into purchase_order (drink_id, email, bar_id, status, quantity) values (6, 'bstephas@gmail.com', 3, '', 1);
 
-
-
-
+insert into purchase_order (drink_id, email, bar_id, status, quantity) values (23, 'kcooler@gmail.com', 4, 'Complete', 3);
+insert into purchase_order (drink_id, email, bar_id, status, quantity) values (29, 'bstephas@gmail.com', 4, 'Complete', 1);
+insert into purchase_order (drink_id, email, bar_id, status, quantity) values (20, 'arizkallah@gmail.com', 4, 'Complete', 1);
+insert into purchase_order (drink_id, email, bar_id, status, quantity, comment) values (19, 'sfunk@gmail.com', 4, 'Complete', 10, 'shots');
+insert into purchase_order (drink_id, email, bar_id, status, quantity) values (28, 'kcooler@gmail.com', 4, 'Complete', 1);
+insert into purchase_order (drink_id, email, bar_id, status, quantity) values (8, 'kcooler@gmail.com', 4, 'Complete', 1);
+insert into purchase_order (drink_id, email, bar_id, status, quantity, comment) values (21, 'arizkallah@gmail.com', 4, 'Complete', 2, 'with coke');
+insert into purchase_order (drink_id, email, bar_id, status, quantity) values (2, 'dstauffer@gmail.com', 4, 'Complete', 1);
+insert into purchase_order (drink_id, email, bar_id, status, quantity, comment) values (21, 'bstephas@gmail.com', 4, 'Complete', 1, 'with tonic');
+insert into purchase_order (drink_id, email, bar_id, status, quantity) values (23, 'kcooler@gmail.com', 4, 'Complete', 1);
+insert into purchase_order (drink_id, email, bar_id, status, quantity) values (18, 'sfunk@gmail.com', 4, 'In Process', 4);
+insert into purchase_order (drink_id, email, bar_id, status, quantity, comment) values (21, 'bstephas@gmail.com', 4, '', 1, 'with tonic');
+insert into purchase_order (drink_id, email, bar_id, status, quantity) values (13, 'kcooler@gmail.com', 4, '', 1);
+insert into purchase_order (drink_id, email, bar_id, status, quantity) values (18, 'sfunk@gmail.com', 4, '', 4);
+insert into purchase_order (drink_id, email, bar_id, status, quantity, comment) values (15, 'kcooler@gmail.com', 4, '', 2, 'with orange juice');
+insert into purchase_order (drink_id, email, bar_id, status, quantity, comment) values (16, 'sfunk@gmail.com', 4, '', 1, 'neat');
+insert into purchase_order (drink_id, email, bar_id, status, quantity, comment) values (17, 'scooler@gmail.com', 4, '', 2, 'with diet');
+insert into purchase_order (drink_id, email, bar_id, status, quantity) values (14, 'dstauffer@gmail.com', 4, '', 1);
 
