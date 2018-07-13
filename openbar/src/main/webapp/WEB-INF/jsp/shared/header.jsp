@@ -10,7 +10,7 @@
 <body>
 
     <header class="header">
-            <h1 class="header__title">Openbar</h1>
+    	<h1 class="header__title">Openbar</h1>
     </header>
 
     <main class="container">

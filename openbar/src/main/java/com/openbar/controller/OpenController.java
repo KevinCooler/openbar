@@ -1,5 +1,7 @@
 package com.openbar.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -8,15 +10,20 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.openbar.model.Bar;
 import com.openbar.model.Customer;
+import com.openbar.model.dao.BarDAO;
 import com.openbar.model.dao.CustomerDAO;
 
 @Controller
-@SessionAttributes("customer")
+@SessionAttributes({"customer", "bar"})
 public class OpenController {
 	
 	@Autowired
 	private CustomerDAO customerDAO;
+	
+	@Autowired
+	private BarDAO barDAO;
 	
 	@RequestMapping("/")
 	public String displayLogIn() {
@@ -24,7 +31,8 @@ public class OpenController {
 	}
 	
 	@RequestMapping("/homePage")
-	public String displayHomePage() {
+	public String displayHomePage(ModelMap map) {
+		map.addAttribute("bars", barDAO.getListOfAllBars());
 		return "homePage";
 	}
 	
@@ -46,6 +54,17 @@ public class OpenController {
 		customerDAO.createCustomerAccount(customer);
 		map.addAttribute("customer",  customer);
 		return "redirect:/";
+	}
+	
+	@RequestMapping("/barPage")
+	public String displayBarPage(ModelMap map, @RequestParam long barId) {
+		Bar bar = new Bar();
+		List<Bar> bars = barDAO.getListOfAllBars();
+		for(Bar each: bars) {
+			if(each.getBarId() == barId) bar = each;
+		}
+		map.addAttribute("bar", bar);
+		return "barPage";
 	}
 
 }

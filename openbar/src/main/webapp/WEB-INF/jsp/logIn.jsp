@@ -2,7 +2,7 @@
 
 <c:import url="/WEB-INF/jsp/shared/header.jsp"/>
 
-		<div>
+		<div class="card">
 			<h2>Log In</h2>
 			<c:url var="formAction" value="/doLogIn"/>
 			<form method="post" action="${formAction}">
@@ -11,7 +11,7 @@
 				<input type="submit" value="Submit" />
 			</form>
 		</div>
-		<div>
+		<div class="card">
 			<h2>Create Account</h2>
 			<c:url var="formAction" value="/doCreateAccount"/>
 			<form method="post" action="${formAction}">
@@ -24,7 +24,7 @@
 				<input type="submit" value="Submit" />
 			</form>
 		</div>
-		<div>
+		<div class="card">
 			<h2>Employee Log In</h2>
 			<c:url var="EmployeeAction" value="/EmployeePage"/>
 			<form method="post" action="${formAction}">
