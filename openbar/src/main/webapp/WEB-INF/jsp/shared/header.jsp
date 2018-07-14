@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <link rel='stylesheet' type='text/css' href='css/bootstrap.css'>
   <link rel='stylesheet' type='text/css' href='css/site.css'>
   <link href="https://fonts.googleapis.com/css?family=Galada" rel="stylesheet">
   <title>Openbar</title>
