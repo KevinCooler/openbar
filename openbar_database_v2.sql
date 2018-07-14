@@ -59,8 +59,6 @@ create table purchase_order(
         constraint fk_bar_id foreign key (bar_id) references bar (bar_id)
 );
 
-
-
 insert into customer (email, credit_card_number, name) values('kcooler@gmail.com', '12345678901234', 'Kevin');
 insert into customer (email, credit_card_number, name) values('arizkallah@gmail.com', '23456789012345', 'Andrew');
 insert into customer (email, credit_card_number, name) values('dstauffer@gmail.com', '34567890123456', 'Doug');
@@ -68,10 +66,10 @@ insert into customer (email, credit_card_number, name) values('bstephas@gmail.co
 insert into customer (email, credit_card_number, name) values('scooler@gmail.com', '56789012345678', 'Sam');
 insert into customer (email, credit_card_number, name) values('sfunk@gmail.com', '67890123456789', 'Steve');
 
-insert into bar (name, account_number) values('Short North Tavern', '7890123456789012');
-insert into bar (name, account_number) values('Meisters', '7890123456789012');
-insert into bar (name, account_number) values('Grandview Cafe', '7890123456789012');
-insert into bar (name, account_number) values('Bodega', '7890123456789012');
+insert into bar (name, account_number) values('Pint House', '8');
+insert into bar (name, account_number) values('Standard Hall', '2');
+insert into bar (name, account_number) values('Food Hall', '5');
+insert into bar (name, account_number) values('Seventh Son', '7');
 
 insert into drink (category, type, brand, name) values ('Beer', 'Lager', 'Yuengling', 'Yuengling');
 insert into drink (category, type, brand, name) values ('Beer', 'IPA', 'Seventh Son', 'Scientist');

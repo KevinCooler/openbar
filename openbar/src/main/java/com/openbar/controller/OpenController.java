@@ -14,6 +14,7 @@ import com.openbar.model.Bar;
 import com.openbar.model.Customer;
 import com.openbar.model.dao.BarDAO;
 import com.openbar.model.dao.CustomerDAO;
+import com.openbar.model.dao.DrinkOrderDAO;
 
 @Controller
 @SessionAttributes({"customer", "bar"})
@@ -24,6 +25,9 @@ public class OpenController {
 	
 	@Autowired
 	private BarDAO barDAO;
+	
+	@Autowired
+	private DrinkOrderDAO drinkOrderDAO;
 	
 	@RequestMapping("/")
 	public String displayLogIn() {
@@ -64,6 +68,7 @@ public class OpenController {
 			if(each.getBarId() == barId) bar = each;
 		}
 		map.addAttribute("bar", bar);
+		map.addAttribute("drinkOrders", drinkOrderDAO.getDrinkOrdersByBarId(barId));
 		return "barPage";
 	}
 

@@ -8,9 +8,9 @@
   <title>Openbar</title>
 </head>
 <body>
-
+	<c:url var="homeURL" value="/homePage"/>
     <header class="header">
-    	<h1 class="header__title">Openbar</h1>
+    	<a href="${homeURL}"><h1 class="header__title">Openbar</h1></a>
     </header>
 
     <main class="container">
