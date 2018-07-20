@@ -24,7 +24,7 @@ private JdbcTemplate jdbcTemplate;
 
 	public List<DrinkOrder> getDrinkOrdersByBarId(long barId) {
 		List<DrinkOrder> drinkOrders = new ArrayList<DrinkOrder>();
-		String sqlSelectDrinkOrdersByBarId = "select is_available, brand, category, comment, customer.name as customer_name, \n" + 
+		String sqlSelectDrinkOrdersByBarId = "select po.bar_id, is_available, brand, category, comment, customer.name as customer_name, \n" + 
 				"        date_time, drink.drink_id, drink.name as drink_name, customer.email, \n" + 
 				"        purchase_order_id, price, quantity, is_special, status, type\n" + 
 				"                from purchase_order po\n" + 
@@ -57,6 +57,7 @@ private JdbcTemplate jdbcTemplate;
 		drinkOrder.setSpecial(result.getBoolean("is_special"));
 		drinkOrder.setStatus(result.getString("status"));
 		drinkOrder.setType(result.getString("type"));
+		drinkOrder.setBarId(result.getLong("bar_id"));
 		return drinkOrder;
 	}
 

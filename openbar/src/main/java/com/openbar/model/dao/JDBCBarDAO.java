@@ -32,6 +32,16 @@ public class JDBCBarDAO implements BarDAO{
 		return bars;
 	}
 	
+	public Bar getBarByBarId(long barId) {
+		Bar bar = new Bar();
+		String sqlSelectBar = "select * from bar where bar_id = ?";
+		SqlRowSet result = jdbcTemplate.queryForRowSet(sqlSelectBar, barId);
+		if(result.next()) {
+			bar = mapRowToBar(result);
+		}
+		return bar;
+	}
+	
 	private Bar mapRowToBar(SqlRowSet result) {
 		Bar bar = new Bar();
 		bar.setAccountNumber(result.getString("account_number"));
@@ -39,5 +49,7 @@ public class JDBCBarDAO implements BarDAO{
 		bar.setName(result.getString("name"));
 		return bar;
 	}
+
+
 
 }

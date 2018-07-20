@@ -11,7 +11,9 @@
 <body>
 	<c:url var="homeURL" value="/homePage"/>
     <header class="header">
-    	<a href="${homeURL}"><h1 class="header__title">Openbar</h1></a>
+    	<a class="header-title" href="${homeURL}">Openbar</a>
     </header>
 
     <main class="container">
+    
+    

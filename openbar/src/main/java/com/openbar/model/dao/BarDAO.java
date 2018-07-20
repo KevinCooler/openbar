@@ -8,4 +8,6 @@ public interface BarDAO {
 	
 	public List<Bar> getListOfAllBars();
 
+	public Bar getBarByBarId(long barId);
+
 }

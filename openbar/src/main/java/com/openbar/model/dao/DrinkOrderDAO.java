@@ -8,4 +8,6 @@ public interface DrinkOrderDAO {
 	
 	public List<DrinkOrder> getDrinkOrdersByBarId(long barId);
 
+	public List<DrinkOrder> getDrinkOrdersOfCustomerAtBar(Long barId, String email);
+
 }

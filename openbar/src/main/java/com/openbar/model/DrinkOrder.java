@@ -27,7 +27,15 @@ public class DrinkOrder {
 	private String email;
 	private String customerName;
 	
+	//bar
+	private long barId;
 	
+	public long getBarId() {
+		return barId;
+	}
+	public void setBarId(long barId) {
+		this.barId = barId;
+	}
 	public long getDrinkId() {
 		return drinkId;
 	}
