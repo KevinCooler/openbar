@@ -76,16 +76,15 @@ main {
     justify-content: space-around;
     margin-bottom: 20px;
 }
+
 .nav a:hover{
 	color:#4b0082;
 	font-weight:bold;
 }
-.nav a:hover{
-	color:#4b0082;
-	font-weight:bold;
-}
-.current-orders {
+.current-nav {
     text-decoration-line: underline;
+    color:#4b0082;
+	font-weight:bold;
 }
   
 footer  {
@@ -158,3 +157,24 @@ h3{
     font-size: .5em;
     margin: auto 0;
 }
+
+.drinks .category {
+	width: 20%;
+}
+.drinks .type {
+	width: 20%;
+}
+.drinks .brand {
+	width: 30%;
+}
+
+
+
+
+
+
+
+
+
+
+

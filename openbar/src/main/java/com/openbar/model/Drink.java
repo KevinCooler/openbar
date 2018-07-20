@@ -7,23 +7,7 @@ public class Drink {
 	private String type;
 	private String brand;
 	private String name;
-	private double price;
-	private boolean isAvailable;
-	private boolean isSpecial;
-	private long barId;
 	
-	public boolean isSpecial() {
-		return isSpecial;
-	}
-	public void setSpecial(boolean isSpecial) {
-		this.isSpecial = isSpecial;
-	}
-	public long getBarId() {
-		return barId;
-	}
-	public void setBarId(long barId) {
-		this.barId = barId;
-	}
 	public Long getDrinkId() {
 		return drinkId;
 	}
@@ -54,23 +38,7 @@ public class Drink {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public double getPrice() {
-		return price;
-	}
-	public void setPrice(double price) {
-		this.price = price;
-	}
-	public boolean isAvailable() {
-		return isAvailable;
-	}
-	public void setAvailable(boolean isAvailable) {
-		this.isAvailable = isAvailable;
-	}
 	
-	@Override
-	public String toString() {
-		return "Drink [name=" + name + ", price=" + price + "]";
-	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;

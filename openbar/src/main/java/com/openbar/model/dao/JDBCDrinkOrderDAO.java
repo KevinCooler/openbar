@@ -64,7 +64,7 @@ private JdbcTemplate jdbcTemplate;
 				"        drink.name as drink_name, price, is_special, type \n" + 
 				"                from bar_drink\n" + 
 				"                join drink on drink.drink_id = bar_drink.drink_id\n" + 
-				"                where bar_id = ? and is_available = true order by category";
+				"                where bar_id = ? and is_available = true order by category , type, brand, drink_name";
 		SqlRowSet result = jdbcTemplate.queryForRowSet(sqlSelectAvaialbleDrinks, barId);
 		while(result.next()) {
 			drinkOrders.add(mapDrinkRowToDrinkOrder(result));

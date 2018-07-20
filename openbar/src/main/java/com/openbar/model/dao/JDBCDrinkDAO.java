@@ -1,31 +1,25 @@
-package com.openbar.unused;
+package com.openbar.model.dao;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
+import org.springframework.stereotype.Component;
 
 import com.openbar.model.Drink;
 
+@Component
 public class JDBCDrinkDAO implements DrinkDAO {
 	
 private JdbcTemplate jdbcTemplate;
 	
+	@Autowired
 	public JDBCDrinkDAO(DataSource dataSource) { 
 		this.jdbcTemplate = new JdbcTemplate(dataSource); 
-	}
-
-	public List<Drink> getAvailableDrinks(long barId) {
-		List<Drink> availableDrinks = new ArrayList<Drink>();
-		String sqlSelectAvaiableDrinks = "select drink_id from bar_drink where is_available = true and bar_id =?";
-		SqlRowSet result = jdbcTemplate.queryForRowSet(sqlSelectAvaiableDrinks, barId);
-		while (result.next()) {
-			availableDrinks.add(getDrinkByDrinkId(result.getLong("drink_id")));
-		}
-		return availableDrinks;
 	}
 	
 	public Drink getDrinkByDrinkId(Long drinkId) {
@@ -37,6 +31,28 @@ private JdbcTemplate jdbcTemplate;
 		}
 		return drink;
 	}
+	
+	private Drink mapRowToDrink(SqlRowSet result) {
+		Drink drink = new Drink();
+		drink.setDrinkId(result.getLong("drink_id"));
+		drink.setBrand(result.getString("brand"));
+		drink.setCategory(result.getString("category"));
+		drink.setName(result.getString("name"));
+		drink.setType(result.getString("type"));
+		return drink;
+	}
+
+//	public List<Drink> getAvailableDrinks(long barId) {
+//		List<Drink> availableDrinks = new ArrayList<Drink>();
+//		String sqlSelectAvaiableDrinks = "select drink_id from bar_drink where is_available = true and bar_id =?";
+//		SqlRowSet result = jdbcTemplate.queryForRowSet(sqlSelectAvaiableDrinks, barId);
+//		while (result.next()) {
+//			availableDrinks.add(getDrinkByDrinkId(result.getLong("drink_id")));
+//		}
+//		return availableDrinks;
+//	}
+	
+	
 	
 //	public List<Drink> getDrinksOfAllOrders() {
 //		List<Drink> allOrderedDrinks = new ArrayList<Drink>();
@@ -79,17 +95,7 @@ private JdbcTemplate jdbcTemplate;
 //		jdbcTemplate.update(sqlUpdatePrice, drink.getPrice(), drink.getDrinkId());
 //
 //	}
-	private Drink mapRowToDrink(SqlRowSet result) {
-		Drink drink = new Drink();
-		drink.setDrinkId(result.getLong("drink_id"));
-		drink.setAvailable(result.getBoolean("is_available"));
-		drink.setBrand(result.getString("brand"));
-		drink.setCategory(result.getString("category"));
-		drink.setName(result.getString("name"));
-		drink.setPrice(result.getDouble("price"));
-		drink.setType(result.getString("type"));
-		return drink;
-	}
+	
 
 	
 

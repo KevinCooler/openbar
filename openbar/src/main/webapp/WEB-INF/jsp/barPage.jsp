@@ -3,15 +3,13 @@
 <c:import url="/WEB-INF/jsp/shared/header.jsp"/>
 
 <c:url var="barHistoryURL" value="/barHistory"/>
-<c:url var="barPageURL" value="/barPage">
-	<c:param name="barId" value="${bar.barId}"></c:param>
-</c:url>
+<c:url var="barPageURL" value="/barPage"/>
 <c:url var="barDrinkSearchURL" value="/barDrinkSearch"/>
 
 	<div class="card">
 	    <div class="nav">
 	        <a href="${barHistoryURL}">My History</a>
-	        <a href="${barPageURL}">Current Orders</a>
+	        <a class="current-nav" href="${barPageURL}">Current Orders</a>
 	        <a href="${barDrinkSearchURL}">Drink Search</a>
 	    </div>
 	    <div class="bar">
@@ -24,6 +22,7 @@
 		        <div class="row">
 		        	<c:url var="orderPageURL" value="/orderPage">
 		        		<c:param name="drinkId" value="${drinkOrder.drinkId}"></c:param>
+		        		<c:param name="price" value="${drinkOrder.price}"></c:param>
 		        	</c:url>
 		            <div class="votes col">
 		                <img src="img/votes.png" alt="vote icon"/>
