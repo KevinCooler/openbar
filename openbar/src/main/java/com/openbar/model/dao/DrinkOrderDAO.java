@@ -6,8 +6,9 @@ import com.openbar.model.DrinkOrder;
 
 public interface DrinkOrderDAO {
 	
-	public List<DrinkOrder> getDrinkOrdersByBarId(long barId);
-
-	public List<DrinkOrder> getDrinkOrdersOfCustomerAtBar(Long barId, String email);
+	public List<DrinkOrder> getAvailableDrinkOrdersAtBar(Long barId);
+	public List<DrinkOrder> getAvailableCurrentDrinkOrdersAtBar(long barId);
+	public List<DrinkOrder> getAvailableDrinkOrdersOfCustomerAtBar(Long barId, String email);
+	
 
 }

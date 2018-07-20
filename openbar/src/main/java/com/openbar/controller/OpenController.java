@@ -18,7 +18,7 @@ import com.openbar.model.dao.CustomerDAO;
 import com.openbar.model.dao.DrinkOrderDAO;
 
 @Controller
-@SessionAttributes({"customer", "bar", "Order"})
+@SessionAttributes("order")
 public class OpenController {
 	
 	@Autowired
@@ -66,7 +66,7 @@ public class OpenController {
 		Bar bar = barDAO.getBarByBarId(barId);
 		Order order = (Order)map.get("order");
 		order.setBarId(barId);
-		map.addAttribute("drinkOrders", drinkOrderDAO.getDrinkOrdersByBarId(barId));
+		map.addAttribute("drinkOrders", drinkOrderDAO.getAvailableCurrentDrinkOrdersAtBar(order.getBarId()));
 		map.addAttribute("bar", bar);
 		return "barPage";
 	}
@@ -75,8 +75,18 @@ public class OpenController {
 	public String displayBarHistoryPage(ModelMap map) {
 		Order order = (Order)map.get("order");
 		Bar bar = barDAO.getBarByBarId(order.getBarId());
-		map.addAttribute("drinkOrders", drinkOrderDAO.getDrinkOrdersOfCustomerAtBar(order.getBarId(), order.getEmail()));
+		map.addAttribute("drinkOrders", drinkOrderDAO.getAvailableDrinkOrdersOfCustomerAtBar(order.getBarId(), order.getEmail()));
 		map.addAttribute("bar", bar);
+		return "barHistory";
+	}
+	
+	@RequestMapping("/barDrinkSearch")
+	public String displayDrinkSearchPage(ModelMap map) {
+		Order order = (Order)map.get("order");
+		Bar bar = barDAO.getBarByBarId(order.getBarId());
+		map.addAttribute("drinkOrders", drinkOrderDAO.getAvailableDrinkOrdersAtBar(order.getBarId()));
+		map.addAttribute("bar", bar);
+		return "drinkSearch";
 	}
 	
 	
